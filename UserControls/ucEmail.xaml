@@ -1,0 +1,379 @@
+﻿<UserControl x:Class="bEmailing.ucEmail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:bEmailing"
+             mc:Ignorable="d" x:Name="userControlEmail">
+
+
+    <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="100 0 100 0">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" x:Name="viewImportData" x:FieldModifier="public" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="White">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" Padding="3" BorderBrush="LightGray" Margin="5 10 0 0" HorizontalAlignment="Left">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Height="26" Width="26" Source="\Images\import.png" />
+                        <TextBlock Margin="5 4 0 0">Select Data</TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnExport" Click="btnExport_Click" Width="120" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="LightGray" Margin="5 10 0 0"  HorizontalAlignment="Left">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Height="26" Width="26" Source="\Images\export.png" />
+                        <TextBlock Margin="5 4 0 0">Export Data</TextBlock>
+                    </StackPanel>
+                </Button>               
+                <Button x:Name="btnSendmail" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="LightGray" Margin="5 10 0 0" Click="btnSendmail_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" Height="26" Width="26" Source="\Images\send.png" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
+                    </Grid>
+                </Button>
+                <TextBlock x:Name="lblCount" Text="Status: 0/0" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                <TextBlock x:Name="lblETA" Text="ETA(mm:ss): 00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                <TextBlock x:Name="lblTimer" Text="Timer: 00:00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+            </StackPanel>
+            <DataGrid Grid.Row="1" Grid.Column="0" Margin="0 10 0 0" Visibility="Hidden" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="Background" Value="#e6e6e6"/>
+                        <Setter Property="Padding" Value="4"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.RowHeaderStyle>
+                    <Style TargetType="{x:Type DataGridRowHeader}">
+                        <Setter Property="Content" Value="{Binding Row_Id}"/>
+                        <Setter Property="Background" Value="#e6e6e6"/>
+                        <Setter Property="Padding" Value="10,0,10,0"/>
+                    </Style>
+                </DataGrid.RowHeaderStyle>
+            </DataGrid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" x:Name="viewDraftEmail"  x:FieldModifier="public" Visibility="Collapsed"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10 0 0" >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" >To*:</Label>
+                <ComboBox  Grid.Row="0" Grid.Column="1"  x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbTo" IsEditable="True" Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbTo_TextChanged"/>
+                <Label Grid.Row="0" Grid.Column="2" x:FieldModifier="public" x:Name="lblTo" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
+
+                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" >Cc:</Label>
+                <ComboBox Grid.Row="1" Grid.Column="1"  x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbCc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbCc_TextChanged"/>
+                <Label Grid.Row="1" Grid.Column="2" x:FieldModifier="public" x:Name="lblCc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
+
+                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" >Bcc:</Label>
+                <ComboBox Grid.Row="2" Grid.Column="1"  x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbBcc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbBcc_TextChanged"/>
+                <Label Grid.Row="2" Grid.Column="2" x:FieldModifier="public" x:Name="lblBcc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
+
+                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Subject*:</Label>
+                <TextBox Grid.Row="3" Grid.Column="1" x:FieldModifier="public" FontSize="13" Margin="5 0 0 5" Height="30" Width="500"  x:Name="txtSubject"  HorizontalAlignment="Left" TextBoxBase.TextChanged="txtSubject_TextChanged"/>
+                <Label Grid.Row="3" Grid.Column="2" x:FieldModifier="public" x:Name="lblSubject" HorizontalAlignment="Left" Margin="5 0 0 5">Insert {column name} in subject line to preview with first record...</Label>
+
+                <Button  Grid.Row="4" Grid.Column="0" x:Name="btnAttachment" Padding="3"  Background="White" BorderBrush="LightGray" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnAttachment_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Button.Resources>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Width="24" Source="\Images\attachment.png" />
+                    </StackPanel>
+                </Button>
+                <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" x:Name="lblAttachment" Margin="0 0 0 0"></Label>
+
+            </Grid>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TabControl Grid.Row="0" Grid.Column="1" Name="Tabs1" TabStripPlacement="Bottom" Margin="5 5 0 0" Width="900" Height="400">
+                    <TabItem Header="Html*" IsSelected="True">
+                        <RichTextBox HorizontalContentAlignment="Stretch" Grid.Row="0" Grid.Column="1" x:FieldModifier="public" x:Name="txtBody" xml:lang="en-IN" SpellCheck.IsEnabled="True" BorderThickness="0" HorizontalAlignment="Left" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" FontSize="13">
+                            <RichTextBox.Resources>
+                                <Style TargetType="{x:Type Paragraph}">
+                                    <Setter Property="Margin" Value="1"/>
+                                </Style>
+                            </RichTextBox.Resources>
+                            <FlowDocument>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </TabItem>
+                    <TabItem Header="Preview">
+                        <WebBrowser x:Name="wbPreview" Loaded="wbPreview_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="2" x:Name="viewPreview"  x:FieldModifier="public" Visibility="Collapsed"  HorizontalAlignment="Stretch" VerticalAlignment="Top"  Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Left" Margin="0 10 0 0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" >To:</Label>
+                <Label  Grid.Row="0" Grid.Column="1" Height="30" FontSize="13" Margin="5 0 0 10" x:Name="lblTo1" Width="400" HorizontalAlignment="Left"/>
+
+                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" >Cc:</Label>
+                <Label Grid.Row="1" Grid.Column="1" Height="30" FontSize="13" Margin="5 0 0 10" x:Name="lblCc1"   Width="400" HorizontalAlignment="Left"/>
+
+                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" >Bcc:</Label>
+                <Label Grid.Row="2" Grid.Column="1" Height="30" FontSize="13" Margin="5 0 0 10" x:Name="lblBcc1"  Width="400" HorizontalAlignment="Left"/>
+
+                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Subject:</Label>
+                <Label Grid.Row="3" Grid.Column="1" x:FieldModifier="public" FontSize="13" Margin="5 0 0 10" Height="30" Width="900"  x:Name="lblSubject1"  HorizontalAlignment="Left"/>
+
+                <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" x:Name="lblAttachment1" Margin="0 3 0 0"></Label>
+
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+
+
+
+
+
+    <!--<Grid Grid.Column="0">
+            <TabControl Name="Tabs1" TabStripPlacement="Bottom" Margin="0 0 -1 0" >
+                <TabItem Header="HTML" IsSelected="True">
+
+                    <Grid VerticalAlignment="Top">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" HorizontalAlignment="Left" Height="65">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" >To:</Label>
+                            <ComboBox  Grid.Row="1" Grid.Column="0" Margin="5 0 0 0" x:Name="cmbTo" IsEditable="True" Width="200" HorizontalAlignment="Left"/>
+                            <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"  >Cc:</Label>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5 0 0 0" x:Name="cmbCc" IsEditable="True"  Width="200" HorizontalAlignment="Left"/>
+                            <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" >Bcc:</Label>
+                            <ComboBox Grid.Row="1" Grid.Column="2" Margin="5 0 0 0" x:Name="cmbBcc" IsEditable="True"  Width="200" HorizontalAlignment="Left"/>
+
+                        </Grid>
+
+
+                        <Separator Grid.Row="1" Margin="-2 0 -2 0"/>
+                        <RichTextBox Margin="0 10 0 0"  Grid.Row="2" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="0">
+                            <FlowDocument>
+                                <Paragraph>I am a flow document. Would you like to edit me?
+                                    <Bold>Go ahead.</Bold>
+                                </Paragraph>
+                                <Paragraph Foreground="Blue">I am blue I am blue I am blue.</Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </Grid>
+
+                </TabItem>
+                <TabItem Header="Preview" >
+                    <Grid VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0 2 0 0" >To:</Label>
+                        <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="0 2 0 0" >To Value</Label>
+                        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0 2 0 0" >Cc:</Label>
+                        <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Margin="0 2 0 0" >CcValue</Label>
+                        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0 2 0 0" >Bcc:</Label>
+                        <Label Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Margin="0 2 0 0" >BccValue</Label>
+                        <WebBrowser Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="wbPreview" />
+
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="4" Background="Gray"  ShowsPreview="True"></GridSplitter>
+
+        <DockPanel Grid.Column="2">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+
+                -->
+    <!--<Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Height="68">
+                <TextBlock x:Name="lblCount" Text="Status: 0/0" FontSize="14" FontWeight="Bold" Margin="5 10 0 10"></TextBlock>
+                <TextBlock x:Name="lblETA" Text="ETA(mm:ss): 00:00" FontSize="14" FontWeight="Bold" Margin="20 10 0 10"></TextBlock>
+                <TextBlock x:Name="lblTimer" Text="Timer: 00:00:00" FontSize="14" FontWeight="Bold" Margin="20 10 0 10"></TextBlock>
+            </StackPanel>
+            <Separator Grid.Row="1" Margin="-2 0 -2 0"/>-->
+
+
+    <!--<DataGrid Grid.Row="1" Grid.ColumnSpan="3" Margin="0 0 0 0" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Left" x:Name="dgvEmailData" VerticalAlignment="Top"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="FontSize" Value="11" />
+                            <Setter Property="Background" Value="#e6e6e6"/>
+                            <Setter Property="Padding" Value="0,5,0,5"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.RowHeaderStyle>
+                        <Style TargetType="{x:Type DataGridRowHeader}">
+                            <Setter Property="Content" Value="{Binding Row_Id}"/>
+                            <Setter Property="Background" Value="#e6e6e6"/>
+                            <Setter Property="Padding" Value="10,0,10,0"/>
+                        </Style>
+                    </DataGrid.RowHeaderStyle>
+                </DataGrid>-->
+    <!--
+            </Grid>
+            -->
+    <!--<DataGrid Margin="0 0 0 0" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Left" x:Name="dgvEmailData" VerticalAlignment="Top"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" >
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="Background" Value="#e6e6e6"/>
+                        <Setter Property="Padding" Value="0,5,0,5"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.RowHeaderStyle>
+                    <Style TargetType="{x:Type DataGridRowHeader}">
+                        <Setter Property="Content" Value="{Binding Row_Id}"/>
+                        <Setter Property="Background" Value="#e6e6e6"/>
+                        <Setter Property="Padding" Value="10,0,10,0"/>
+                    </Style>
+                </DataGrid.RowHeaderStyle>
+            </DataGrid>-->
+    <!--<DockPanel>
+
+                <DataGrid  Visibility="Hidden" Margin="0 0 0 0" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Left" x:Name="dgvEmailData" VerticalAlignment="Top" Grid.Row="1"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" >
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="FontSize" Value="11" />
+                            <Setter Property="Background" Value="#e6e6e6"/>
+                            <Setter Property="Padding" Value="0,5,0,5"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.RowHeaderStyle>
+                        <Style TargetType="{x:Type DataGridRowHeader}">
+                            <Setter Property="Content" Value="{Binding Row_Id}"/>
+                            <Setter Property="Background" Value="#e6e6e6"/>
+                            <Setter Property="Padding" Value="10,0,10,0"/>
+                        </Style>
+                    </DataGrid.RowHeaderStyle>
+                </DataGrid>
+            </DockPanel>-->
+    <!--
+        </DockPanel>
+    </Grid>-->
+</UserControl>

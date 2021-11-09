@@ -1,0 +1,39 @@
+﻿<Window x:Class="bEmailing.frmHost"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:bEmailing"
+        mc:Ignorable="d"
+        Title="Bulk Emailing" Height="750" Width="1200" WindowState="Maximized" Loaded="Window_Loaded">
+    <DockPanel>
+        <Ribbon x:Name="ribbonBar" SelectedIndex="0" DockPanel.Dock="Top">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu Visibility="Collapsed">
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+
+            <RibbonTab Header="Email" KeyTip="E" >
+                <RibbonGroup x:Name="EmailData">
+                    <RibbonButton x:Name="btnImportData" LargeImageSource="Images\send.png" Label="Send Email" KeyTip="I" Click="btnImportData_Click"/>
+                    <RibbonButton x:Name="btnDraftEmail" LargeImageSource="Images\edit.png" Label="Draft Email" KeyTip="D" Click="btnDraftEmail_Click" />
+                </RibbonGroup>
+                <RibbonGroup x:Name="Settings">
+                    <RibbonButton LargeImageSource="Images\settings.png" Label="SMTP Settings" KeyTip="S" Name="SmtpConfig" Click="SmtpConfig_Click" />
+                </RibbonGroup>
+                <RibbonGroup x:Name="ImageUtility">
+                    <RibbonButton x:Name="btnImgText" LargeImageSource="Images\imagetotext.png" Label="Convert Image to Text" KeyTip="M"  Click="btnImgText_Click"/>
+                    <RibbonButton LargeImageSource="Images\help.png" Label="Help" Name="btnHelp"  KeyTip="H"  Click="btnHelp_Click" />
+                </RibbonGroup>
+            </RibbonTab>           
+        </Ribbon>
+
+        <Grid x:Name="pnlHost" Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ContentControl Grid.Row="0" x:Name="ContentArea" />
+        </Grid>
+    </DockPanel>
+
+</Window>

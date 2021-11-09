@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="bEmailing.ucImgText"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:bEmailing"
+             mc:Ignorable="d">
+    <Grid VerticalAlignment="Top" Margin="0 10 0 0">
+
+        <GroupBox Margin="0,10,0,-486" HorizontalAlignment="Center" Height="550">
+            <GroupBox.Header>
+                <Label Content="Imaget to Text"></Label>
+            </GroupBox.Header>
+            <Grid VerticalAlignment="Top" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0"  Name="btnBrowse"  Content="Browse Image" Width="100" Height="30" HorizontalAlignment="Left" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="btnBrowse_Click"  />
+                <Image x:Name="ImgTextCopy" MouseDown="ImgTextCopy_MouseDown"  Cursor="Hand" Grid.Row="0" Grid.Column="1" Width="20" Height="20" Source="\Images\copy.png" HorizontalAlignment="Right">
+                    <Image.ToolTip>
+                        <ToolTip Content="Copy Text" />
+                    </Image.ToolTip>
+                </Image>
+
+
+                <Label Grid.Row="1" Grid.Column="0" x:Name="lblImagesize" Content="Image"/>
+                <Border Grid.Row="2" Grid.Column="0" BorderThickness=".5" BorderBrush="Gray" Width="450" Height="450">
+                    <Image x:Name="imgText" Width="450" Height="450" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </Border>
+
+                <Label Grid.Row="1" Grid.Column="1" Content="Replace image's src value with textbox value" />
+                <RichTextBox Grid.Row="2" Grid.Column="1" x:Name="txtImage" Margin="5 0 0 0" Width="450" Height="450" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto"/>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

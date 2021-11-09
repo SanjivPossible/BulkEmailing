@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+	<smtpconfig>
+		<emailfrom></emailfrom>
+		<emailtitle></emailtitle>
+		<smtphost></smtphost>
+		<smtpport></smtpport>
+		<smtpencryption>None</smtpencryption>
+		<smtpauth>DefaultAuth</smtpauth>
+		<smtpusername></smtpusername>
+		<smtppassword></smtppassword>
+	</smtpconfig>
+</config>
