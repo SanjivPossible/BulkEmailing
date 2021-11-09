@@ -194,6 +194,12 @@ namespace bEmailing
             }
         }
 
+        private void btnResetAttachment_Click(object sender, RoutedEventArgs e)
+        {
+            EmailAttachment = null;
+            lblAttachment.Content = string.Empty;
+        }
+
         private void btnSendmail_Click(object sender, RoutedEventArgs e)
         {
             if (IsSendingEmail == false)
@@ -557,6 +563,7 @@ namespace bEmailing
 
             return content;
         }
+
 
     }
 }

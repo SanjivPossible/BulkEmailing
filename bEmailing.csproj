@@ -1,64 +1,66 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ApplicationIcon>mailing.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>mailing.ico</ApplicationIcon>
+		<Version>1.1.0</Version>
+		<Description>The application is well suited for mass/bulk/personalize mailing</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="AppConfig.xml" />
-    <None Remove="Images\attachment.png" />
-    <None Remove="Images\copy.png" />
-    <None Remove="Images\edit.png" />
-    <None Remove="Images\export.png" />
-    <None Remove="Images\Help.png" />
-    <None Remove="Images\ImageToText.png" />
-    <None Remove="Images\import.png" />
-    <None Remove="Images\preview.png" />
-    <None Remove="Images\releasenote.png" />
-    <None Remove="Images\reset.png" />
-    <None Remove="Images\send.png" />
-    <None Remove="Images\settings.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="AppConfig.xml" />
+		<None Remove="Images\attachment.png" />
+		<None Remove="Images\copy.png" />
+		<None Remove="Images\edit.png" />
+		<None Remove="Images\export.png" />
+		<None Remove="Images\Help.png" />
+		<None Remove="Images\ImageToText.png" />
+		<None Remove="Images\import.png" />
+		<None Remove="Images\preview.png" />
+		<None Remove="Images\releasenote.png" />
+		<None Remove="Images\reset.png" />
+		<None Remove="Images\send.png" />
+		<None Remove="Images\settings.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="mailing.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="mailing.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="AppConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Images\attachment.png" />
-    <Resource Include="Images\copy.png" />
-    <Resource Include="Images\edit.png" />
-    <Resource Include="Images\export.png" />
-    <Resource Include="Images\help.png" />
-    <Resource Include="Images\ImageToText.png" />
-    <Resource Include="Images\import.png" />
-    <Resource Include="Images\preview.png" />
-    <Resource Include="Images\releasenote.png" />
-    <Resource Include="Images\reset.png" />
-    <Resource Include="Images\send.png" />
-    <Resource Include="Images\settings.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="AppConfig.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Resource Include="Images\attachment.png" />
+		<Resource Include="Images\copy.png" />
+		<Resource Include="Images\edit.png" />
+		<Resource Include="Images\export.png" />
+		<Resource Include="Images\help.png" />
+		<Resource Include="Images\ImageToText.png" />
+		<Resource Include="Images\import.png" />
+		<Resource Include="Images\preview.png" />
+		<Resource Include="Images\releasenote.png" />
+		<Resource Include="Images\reset.png" />
+		<Resource Include="Images\send.png" />
+		<Resource Include="Images\settings.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Models\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="EPPlus" Version="4.5.3.3" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="EPPlus" Version="4.5.3.3" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="ReleaseNote\ReleaseNote.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="ReleaseNote\ReleaseNote.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

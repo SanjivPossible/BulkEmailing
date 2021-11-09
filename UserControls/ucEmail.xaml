@@ -48,7 +48,7 @@
                         <Image Height="26" Width="26" Source="\Images\export.png" />
                         <TextBlock Margin="5 4 0 0">Export Data</TextBlock>
                     </StackPanel>
-                </Button>               
+                </Button>
                 <Button x:Name="btnSendmail" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="LightGray" Margin="5 10 0 0" Click="btnSendmail_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -130,17 +130,25 @@
                 <TextBox Grid.Row="3" Grid.Column="1" x:FieldModifier="public" FontSize="13" Margin="5 0 0 5" Height="30" Width="500"  x:Name="txtSubject"  HorizontalAlignment="Left" TextBoxBase.TextChanged="txtSubject_TextChanged"/>
                 <Label Grid.Row="3" Grid.Column="2" x:FieldModifier="public" x:Name="lblSubject" HorizontalAlignment="Left" Margin="5 0 0 5">Insert {column name} in subject line to preview with first record...</Label>
 
-                <Button  Grid.Row="4" Grid.Column="0" x:Name="btnAttachment" Padding="3"  Background="White" BorderBrush="LightGray" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnAttachment_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel  Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button x:Name="btnResetAttachment" Padding="3"  Background="White" BorderBrush="LightGray" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnResetAttachment_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Width="24" Source="\Images\reset.png" />
+                    </Button>
+                    <Button x:Name="btnAttachment" Padding="3"  Background="White" BorderBrush="LightGray" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnAttachment_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
                         <Image Width="24" Source="\Images\attachment.png" />
-                    </StackPanel>
-                </Button>
-                <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" x:Name="lblAttachment" Margin="0 0 0 0"></Label>
+                    </Button>
+                    <Label HorizontalAlignment="Left" x:Name="lblAttachment" Margin="0 0 0 0" Content=""/>
+                </StackPanel>
 
             </Grid>
 
