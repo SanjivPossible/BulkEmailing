@@ -54,6 +54,7 @@ namespace bEmailing
         static int rowCount = 0;
         static int etaMin = 0;
         static DateTime startTime = DateTime.Now;
+        int tableDataCount = 0;
 
         public ucEmail()
         {
@@ -127,9 +128,11 @@ namespace bEmailing
 
                         dgvEmailData.ItemsSource = dtEmaildata.DefaultView;
                         dgvEmailData.Columns[0].Visibility = Visibility.Hidden;
-                        dgvEmailData.Visibility = Visibility.Visible;
+                        dgvEmailData.Visibility = Visibility.Visible;                        
+                        pbStatus.Value = 0;
+                        tableDataCount = dtEmaildata.Rows.Count;
 
-                        lblCount.Text = "Status: " + dtEmaildata.Rows.Count.ToString() + "/" + dtEmaildata.Rows.Count.ToString();
+                        lblCount.Text = "Status: " + tableDataCount.ToString() + "/" + tableDataCount.ToString();
 
                     }
 
@@ -140,7 +143,6 @@ namespace bEmailing
                 }
             }
         }
-
         private void FillComboBox(DataTable dt)
         {
             cmbTo.Items.Clear();
@@ -220,6 +222,7 @@ namespace bEmailing
                     btnImport.IsEnabled = false;
                     lblSendmail.Text = "Stop Sending";
                     IsSendingEmail = true;
+                    pbStatus.Value = 0;
                     bwSending.RunWorkerAsync();
                 }
             }
@@ -240,7 +243,7 @@ namespace bEmailing
                 MessageBox.Show("Fill the SMTP configuration details", "Validation Failed");
                 return false;
             }
-            if (dtEmaildata.Rows.Count <= 0)
+            if (tableDataCount <= 0)
             {
                 MessageBox.Show("Select email data for bulk emailing", "Validation Failed");
                 return false;
@@ -307,7 +310,7 @@ namespace bEmailing
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
-            if (dtEmaildata == null || dtEmaildata.Rows.Count <= 0)
+            if (dtEmaildata == null || tableDataCount <= 0)
             {
                 MessageBox.Show("No record found", "Validation");
                 return;
@@ -528,7 +531,9 @@ namespace bEmailing
         }
         private void BwSending_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            lblCount.Text = "Status: " + (dtEmaildata.Rows.Count - counter).ToString() + "/" + dtEmaildata.Rows.Count.ToString();
+            lblCount.Text = "Status: " + (tableDataCount - counter).ToString() + "/" + tableDataCount.ToString();
+            decimal perc = ((decimal)counter / (decimal)tableDataCount) * 100;
+            pbStatus.Value = Convert.ToInt32(perc);
             TimeSpan time = TimeSpan.FromSeconds(etaMin);
             string str = time.ToString(@"mm\:ss");
             lblETA.Text = "ETA (mm:ss): " + str;
