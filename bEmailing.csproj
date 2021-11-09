@@ -18,6 +18,7 @@
     <None Remove="Images\ImageToText.png" />
     <None Remove="Images\import.png" />
     <None Remove="Images\preview.png" />
+    <None Remove="Images\releasenote.png" />
     <None Remove="Images\reset.png" />
     <None Remove="Images\send.png" />
     <None Remove="Images\settings.png" />
@@ -39,6 +40,7 @@
     <Resource Include="Images\ImageToText.png" />
     <Resource Include="Images\import.png" />
     <Resource Include="Images\preview.png" />
+    <Resource Include="Images\releasenote.png" />
     <Resource Include="Images\reset.png" />
     <Resource Include="Images\send.png" />
     <Resource Include="Images\settings.png" />
@@ -50,10 +52,11 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.3" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Logs\TextFile1.txt">
+    <None Update="ReleaseNote\ReleaseNote.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

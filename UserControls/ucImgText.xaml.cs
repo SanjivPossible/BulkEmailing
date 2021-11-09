@@ -48,20 +48,22 @@ namespace bEmailing
                     }
                     else
                     {
-                        var ext = System.IO.Path.GetExtension(openFileDialogAttachment.FileName);
-                        ext = ext.Substring(1);
 
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(openFileDialogAttachment.FileName);
-                        bitmap.EndInit();
-                        imgText.Source = bitmap;
+                        ImageToText(openFileDialogAttachment.FileName);
+                        //var ext = System.IO.Path.GetExtension(openFileDialogAttachment.FileName);
+                        //ext = ext.Substring(1);
 
-                        string content = string.Format("src='data:image/{0};base64,{1}'", ext, Convert.ToBase64String(File.ReadAllBytes(openFileDialogAttachment.FileName)));
-                        txtImage.Document.Blocks.Clear();
-                        txtImage.Document.Blocks.Add(new Paragraph(new Run(content)));
+                        //BitmapImage bitmap = new BitmapImage();
+                        //bitmap.BeginInit();
+                        //bitmap.UriSource = new Uri(openFileDialogAttachment.FileName);
+                        //bitmap.EndInit();
+                        //imgText.Source = bitmap;
 
-                        lblImagesize.Content = "Image size: Width(" + string.Format("{0:0.##}", bitmap.Width) + ")*" + "Height(" + string.Format("{0:0.##}", bitmap.Height) + ")";
+                        //string content = string.Format("src='data:image/{0};base64,{1}'", ext, Convert.ToBase64String(File.ReadAllBytes(openFileDialogAttachment.FileName)));
+                        //txtImage.Document.Blocks.Clear();
+                        //txtImage.Document.Blocks.Add(new Paragraph(new Run(content)));
+
+                        //lblImagesize.Content = "Image size: Width(" + string.Format("{0:0.##}", bitmap.Width) + ")*" + "Height(" + string.Format("{0:0.##}", bitmap.Height) + ")";
 
                     }
 
@@ -77,6 +79,25 @@ namespace bEmailing
         {
             string richText = new TextRange(txtImage.Document.ContentStart, txtImage.Document.ContentEnd).Text;
             System.Windows.Clipboard.SetText(richText);
+        }
+
+        private void ImageToText(string filename)
+        {
+            var ext = System.IO.Path.GetExtension(filename);
+            ext = ext.Substring(1);
+
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(filename);
+            bitmap.EndInit();
+            imgText.Source = bitmap;
+
+            string content = string.Format("src='data:image/{0};base64,{1}'", ext, Convert.ToBase64String(File.ReadAllBytes(filename)));
+            txtImage.Document.Blocks.Clear();
+            txtImage.Document.Blocks.Add(new Paragraph(new Run(content)));
+
+            lblImagesize.Content = "Image size: Width(" + string.Format("{0:0.##}", bitmap.Width) + ")*" + "Height(" + string.Format("{0:0.##}", bitmap.Height) + ")";
+
         }
 
     }

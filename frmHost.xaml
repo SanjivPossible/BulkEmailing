@@ -24,6 +24,7 @@
                 <RibbonGroup x:Name="ImageUtility">
                     <RibbonButton x:Name="btnImgText" LargeImageSource="Images\imagetotext.png" Label="Convert Image to Text" KeyTip="M"  Click="btnImgText_Click"/>
                     <RibbonButton LargeImageSource="Images\help.png" Label="Help" Name="btnHelp"  KeyTip="H"  Click="btnHelp_Click" />
+                    <RibbonButton LargeImageSource="Images\releasenote.png" Label="Release Note" x:Name="btnReleaseNote"  KeyTip="N" Click="btnReleaseNote_Click" />
                 </RibbonGroup>
             </RibbonTab>           
         </Ribbon>

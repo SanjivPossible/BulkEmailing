@@ -1,18 +1,22 @@
-﻿using Microsoft.Win32;
+﻿using HtmlAgilityPack;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Threading;
+
 
 namespace bEmailing
 {
@@ -38,7 +42,6 @@ namespace bEmailing
         OpenFileDialog openFileDialogAttachment = new OpenFileDialog();
 
         bool IsSendingEmail = false;
-
 
         string toColumn = string.Empty;
         string ccColumn = string.Empty;
@@ -367,16 +370,45 @@ namespace bEmailing
 
         private void wbPreview_Loaded(object sender, RoutedEventArgs e)
         {
+            char[] x = { '"', '\'' };
             string strBody = new TextRange(txtBody.Document.ContentStart, txtBody.Document.ContentEnd).Text;
             if (!string.IsNullOrEmpty(strBody))
             {
-                string BodyColumn = strBody;
+
+                int wordCount = 0;
+                int updateCount = 0;
+                int stIndex = 0;
+                int enIndex = 0;
+                StringBuilder BodyColumn = new StringBuilder(strBody);
                 foreach (DataColumn clm in dtEmaildata.Columns)
                 {
-                    BodyColumn = BodyColumn.Replace("{" + clm.ColumnName + "}", dtEmaildata.Rows[0][clm.ColumnName].ToString());
+                    BodyColumn.Replace("{" + clm.ColumnName + "}", dtEmaildata.Rows[0][clm.ColumnName].ToString());
+                }
+                foreach (Match m in Regex.Matches(BodyColumn.ToString(), "src", RegexOptions.IgnoreCase))
+                {
+                    wordCount++;
                 }
 
-                wbPreview.NavigateToString(BodyColumn);
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(BodyColumn.ToString());
+
+                HtmlNodeCollection imgs = new HtmlNodeCollection(doc.DocumentNode.ParentNode);
+                imgs = doc.DocumentNode.SelectNodes("//img");
+                if (imgs != null)
+                {
+                    foreach (HtmlNode img in imgs)
+                    {
+                        HtmlAttribute src = img.Attributes[@"src"];
+                        string filename = src.Value;
+                        if (File.Exists(filename))
+                        {
+                            var imgText = ImageToText(filename);
+                            src.Value = imgText;
+                        }
+                    }
+                }
+
+                wbPreview.NavigateToString(doc.DocumentNode.OuterHtml);
             }
         }
 
@@ -515,6 +547,15 @@ namespace bEmailing
             oEmailLog.SendTime = DateTime.Now;
             oEmailLog.IsSend = isSend;
             emailLogger.Log(oEmailLog);
+        }
+
+        private string ImageToText(string filename)
+        {
+            var ext = System.IO.Path.GetExtension(filename);
+            ext = ext.Substring(1);
+            string content = string.Format("data:image/{0};base64,{1}", ext, Convert.ToBase64String(File.ReadAllBytes(filename)));
+
+            return content;
         }
 
     }

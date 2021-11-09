@@ -14,21 +14,8 @@ namespace bEmailing
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class frmHost : Window
-    {
-
-        const string COL_EMAILSTATUS = "EmailStatus";
-        const string COL_ROWID = "Row_Id";
-        DateTime dtStartTimer = DateTime.Now;
-
-        OpenFileDialog openFileDialogAttachment = null;
-        FileInfo EmailAttachment = null;
-
-        Excel oExcel = new Excel();
-        Email oEmail = new Email();
-        DataTable dtEmaildata = new DataTable();
-        EmailLogger emailLogger = new EmailLogger();
-        DataSet dsConfig = new DataSet();
-        BackgroundWorker bwSending = new BackgroundWorker();
+    {        
+        EmailLogger emailLogger = new EmailLogger();       
         ucEmail oucEmail = null;
         public frmHost()
         {
@@ -127,7 +114,6 @@ namespace bEmailing
             }
             oucEmail.viewImportData.Visibility = Visibility.Visible;
             oucEmail.viewDraftEmail.Visibility = Visibility.Collapsed;
-            oucEmail.viewPreview.Visibility = Visibility.Collapsed;
             oucEmail.viewImportData.Height = this.pnlHost.ActualHeight;
 
             //OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -211,26 +197,6 @@ namespace bEmailing
             //}
         }
 
-        private void ResetControls()
-        {
-
-            dtEmaildata.Clear();
-            oucEmail.dgvEmailData.ItemsSource = null;
-
-            //txtBody.Text = string.Empty;
-            //txtSubject.Text = string.Empty;
-            //openFileDialogAttachment = null;
-            //EmailAttachment = null;
-            //lblAttachment.Text = string.Empty;
-
-            //cmbBcc.Items.Clear();
-            //cmbCC.Items.Clear();
-            //cmbTo.Items.Clear();
-            oucEmail.lblCount.Text = "Status: 0/0";
-            oucEmail.lblETA.Text = "ETA (mm:ss): 00:00";
-            oucEmail.dgvEmailData.Visibility = Visibility.Hidden;
-        }
-
         private void LogEmail(mEmailPreview mpreview, bool isSend)
         {
             mEmailLog oEmailLog = new mEmailLog();
@@ -244,11 +210,6 @@ namespace bEmailing
             emailLogger.Log(oEmailLog);
         }
 
-        private void btnReset_Click(object sender, RoutedEventArgs e)
-        {
-            ResetControls();
-        }
-
         private void btnDraftEmail_Click(object sender, RoutedEventArgs e)
         {
             foreach (var tb in FindVisualChildren<ucEmail>(this.pnlHost))
@@ -257,9 +218,14 @@ namespace bEmailing
             }
             oucEmail.viewDraftEmail.Visibility = Visibility.Visible;
             oucEmail.viewImportData.Visibility = Visibility.Collapsed;
-            oucEmail.viewPreview.Visibility = Visibility.Collapsed;
             oucEmail.viewDraftEmail.Height = this.pnlHost.ActualHeight;
         }
 
+        private void btnReleaseNote_Click(object sender, RoutedEventArgs e)
+        {
+            var frm = new frmReleaseNote();
+            frm.ShowDialog();
+            this.Title = "Bulk Mailing : Release Note";
+        }
     }
 }
