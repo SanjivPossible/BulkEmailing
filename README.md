@@ -23,7 +23,7 @@ Installing the dependencies either by restoring or adding from NuGet packages.
 # Contributing Guidelines
 Contributions are always welcome! If you'd like to collaborate with us, take into account that:
 
-We use VS 2022 (community version).
+We use Visual Studio 2022 (community version).
 
 Feel free to <a href="mailto:sanjiv.possible@gmail.com">contact us</a> if you have any question
 
