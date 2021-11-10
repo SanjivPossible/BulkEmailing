@@ -19,3 +19,6 @@ EPPlus 4.5.3.3
 HtlpAgilityPack 1.11.37
 
 Installing the dependencies either by restoring or adding from NuGet packages. 
+
+# License
+bEmailing is available under the MIT license. 
