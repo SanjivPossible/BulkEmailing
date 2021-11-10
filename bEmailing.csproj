@@ -13,6 +13,7 @@
 	<ItemGroup>
 		<None Remove="AppConfig.xml" />
 		<None Remove="Images\attachment.png" />
+		<None Remove="Images\code.png" />
 		<None Remove="Images\copy.png" />
 		<None Remove="Images\edit.png" />
 		<None Remove="Images\export.png" />
@@ -21,6 +22,7 @@
 		<None Remove="Images\import.png" />
 		<None Remove="Images\nextpage.png" />
 		<None Remove="Images\preview.png" />
+		<None Remove="Images\preview1.png" />
 		<None Remove="Images\prevpage.png" />
 		<None Remove="Images\releasenote.png" />
 		<None Remove="Images\reset.png" />
@@ -37,6 +39,8 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Resource Include="Images\attachment.png" />
+		<Resource Include="Images\code.png" />
+		<Resource Include="Images\preview1.png" />
 		<Resource Include="Images\prevpage.png" />
 		<Resource Include="Images\copy.png" />
 		<Resource Include="Images\edit.png" />
