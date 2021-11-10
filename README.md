@@ -2,7 +2,7 @@
 
 Send personalize bulk email for marketing campaigns/company communication with configured SMTP server.
 
-With bEmailing you can: select recipients (email addresses) and neccessary informaton that will be the part of To,CC,BCC, Subject Line, Body. Draft an Email Subject (Text format) and Body (HTML format) of email including images and send and track them on fingrue tip.
+With bEmailing you can: select recipients (email addresses) and neccessary informaton that will be the part of To,CC,BCC, Subject Line, Body. Draft an Email Subject (Text format) and Body (HTML format) of email including images, send and track them on fingure tip.
 
 The biggest magic of bEmailing: SEND MILLIONS OF EMAILS WITHIN SECONDS FROM YOUR LOCAL SYSTEM!
 
