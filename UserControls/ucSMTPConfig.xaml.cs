@@ -169,7 +169,7 @@ namespace bEmailing
         private void txtSmtpHost_TextChanged(object sender, TextChangedEventArgs e)
         {
             var find = dtSmtpServers.Select("smtpserver='" + txtSmtpHost.Text + "'");
-            if (find != null)
+            if (find != null && find.Length > 0)
             {
                 txtSmtpPort.Text = find[0]["port"].ToString();
                 rbSsl.IsChecked = true;

@@ -14,8 +14,8 @@ namespace bEmailing
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class frmHost : Window
-    {        
-        EmailLogger emailLogger = new EmailLogger();       
+    {
+        EmailLogger emailLogger = new EmailLogger();
         ucEmail oucEmail = null;
         public frmHost()
         {
@@ -27,7 +27,7 @@ namespace bEmailing
             if (!Directory.Exists(logFolder)) Directory.CreateDirectory(logFolder);
 
             oucEmail = new ucEmail();
-            oucEmail.viewImportData.Height = this.pnlHost.ActualHeight;
+            oucEmail.viewImportData.Height = this.pnlHost.ActualHeight - 20;
             ContentArea.Content = oucEmail;
             this.Title = "Bulk Mailing : Schedule & Send Email";
         }
@@ -114,87 +114,8 @@ namespace bEmailing
             }
             oucEmail.viewImportData.Visibility = Visibility.Visible;
             oucEmail.viewDraftEmail.Visibility = Visibility.Collapsed;
-            oucEmail.viewImportData.Height = this.pnlHost.ActualHeight;
+            oucEmail.viewImportData.Height = this.pnlHost.ActualHeight - 20;
 
-            //OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            //openFileDialog1.Multiselect = false;
-            //openFileDialog1.ValidateNames = true;
-            //openFileDialog1.DereferenceLinks = false; // Will return .lnk in shortcuts.
-            //openFileDialog1.Filter = "Excel Files|*.xls;*.xlsx";
-
-            //Nullable<bool> result = openFileDialog1.ShowDialog();
-            //if (result == true)
-            //{
-            //    try
-            //    {
-            //        string selectedFile = openFileDialog1.FileName;
-            //        if (string.IsNullOrEmpty(selectedFile) || selectedFile.Contains(".lnk"))
-            //        {
-            //            MessageBox.Show("Please select a valid Excel File");
-            //        }
-            //        else
-            //        {
-
-            //            dtEmaildata.Clear();
-            //            oucEmail.cmbTo.Items.Clear();
-            //            oucEmail.cmbCc.Items.Clear();
-            //            oucEmail.cmbBcc.Items.Clear();
-            //            oucEmail.dgvEmailData.ItemsSource = null;
-
-            //            DataTable dt = oExcel.GetDataTableFromExcel(selectedFile);
-            //            using (DbDataReader dr = dt.CreateDataReader())
-            //            {
-            //                //Get Original Datatable structure
-            //                dtEmaildata = dt.Clone();
-
-            //                // Add Auto Increment Column called ID
-            //                dtEmaildata.Columns.Add(new DataColumn("Row_Id", typeof(System.Int32))
-            //                {
-            //                    AutoIncrement = true,
-            //                    AllowDBNull = false,
-            //                    AutoIncrementSeed = 1,
-            //                    AutoIncrementStep = 1,
-            //                    Unique = true
-            //                });
-
-            //                // Change Auto Increment Column Ordinal Position to 0 (ie First Column)
-            //                dtEmaildata.Columns["Row_Id"].SetOrdinal(0);
-
-            //                // Re-load original Data
-            //                dtEmaildata.Load(dr);
-            //            }
-            //            if (dtEmaildata.Columns.Count > 0) dtEmaildata.Columns.Add(COL_EMAILSTATUS).SetOrdinal(1);
-
-            //            oucEmail.dgvEmailData.ItemsSource = dtEmaildata.DefaultView;
-            //            oucEmail.dgvEmailData.Columns[0].Visibility = Visibility.Hidden;
-            //            oucEmail.dgvEmailData.Visibility = Visibility.Visible;
-
-
-            //            foreach (DataColumn cl in dtEmaildata.Columns)
-            //            {
-            //                if (cl.ColumnName.Equals(COL_ROWID) || cl.ColumnName.Equals(COL_EMAILSTATUS)) continue;
-            //                oucEmail.cmbTo.Items.Add("{" + cl.ColumnName + "}");
-            //            }
-
-            //            oucEmail.cmbCc.Items.Add("");
-            //            oucEmail.cmbBcc.Items.Add("");
-            //            foreach (DataColumn cl in dtEmaildata.Columns)
-            //            {
-            //                if (cl.ColumnName.Equals(COL_ROWID) || cl.ColumnName.Equals(COL_EMAILSTATUS)) continue;
-            //                oucEmail.cmbCc.Items.Add("{" + cl.ColumnName + "}");
-            //                oucEmail.cmbBcc.Items.Add("{" + cl.ColumnName + "}");
-
-            //            }
-            //            oucEmail.lblCount.Text = "Status: " + dtEmaildata.Rows.Count.ToString() + "/" + dtEmaildata.Rows.Count.ToString();
-
-            //        }
-
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //    }
-            //}
         }
 
         private void LogEmail(mEmailPreview mpreview, bool isSend)
@@ -217,8 +138,10 @@ namespace bEmailing
                 oucEmail = tb as ucEmail;
             }
             oucEmail.viewDraftEmail.Visibility = Visibility.Visible;
+            oucEmail.viewDraftEmail.Height = this.pnlHost.ActualHeight - 20;
+
             oucEmail.viewImportData.Visibility = Visibility.Collapsed;
-            oucEmail.viewDraftEmail.Height = this.pnlHost.ActualHeight;
+            
         }
 
         private void btnReleaseNote_Click(object sender, RoutedEventArgs e)

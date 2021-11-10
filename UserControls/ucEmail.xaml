@@ -26,7 +26,6 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -65,29 +64,70 @@
                             <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
                         </Grid>
                     </Button>
-                    <TextBlock x:Name="lblCount" Text="Status: 0/0" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
-                    <TextBlock x:Name="lblETA" Text="ETA(mm:ss): 00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
-                    <TextBlock x:Name="lblTimer" Text="Timer: 00:00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                    <TextBlock x:Name="lblCount" Text="Status: 0/0" FontSize="13" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                    <TextBlock x:Name="lblETA" Text="ETA(mm:ss): 00:00" FontSize="13" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                    <TextBlock x:Name="lblTimer" Text="Timer: 00:00:00" FontSize="13" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
-                    <Button x:Name="btnExport" Click="btnExport_Click" Height="30" Width="35" Padding="1" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Width="24" Height="24" Source="\Images\export.png" />
-                    </Button>
-                    <Button x:Name="btnNext" Click="btnNext_Click" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        <Image Width="24" Height="24" Source="\Images\nextpage.png" />
-                    </Button>
+                <Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
+                        <!--<Button Height="30" Background="#04AA6D" Foreground="White" BorderThickness="0"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                                </Style>
+                            </Button.Resources>
+                            <TextBlock x:Name="txtSuccessStatus"  Margin="2 0 2 0">0</TextBlock>
+                        </Button>-->
+                        <!--<Button Grid.Column="1" Height="30" Background="#ff4d4d" Foreground="White" BorderThickness="0" Focusable="False" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                                </Style>
+                            </Button.Resources>
+                            <TextBlock x:Name="txtFailedStatus" Grid.Column="1" Height="30" Background="#ff4d4d" Foreground="White" BorderThickness="0" Margin="2 0 2 0">0</TextBlock>
+                        </Button>-->
 
-                </StackPanel>
+                        <TextBox x:Name="txtSuccessStatus" Text="0" IsReadOnly="True" MinWidth="20" Height="30" Background="#04AA6D" Foreground="White" Margin="1 0 0 0" BorderThickness="0 0 1 0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <TextBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="5 0 0 5"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+                        <TextBox x:Name="txtFailedStatus" Text="0" IsReadOnly="True" MinWidth="20" Height="30" Background="#ff4d4d" Foreground="White" BorderThickness="0" Margin="0 0 1 0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <TextBox.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="0 5 5 0"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 10 0">
+                        <Button x:Name="btnExport" Click="btnExport_Click" Height="30" Width="35" Padding="1" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Image Width="24" Height="24" Source="\Images\export.png" />
+                        </Button>
+                        <Button x:Name="btnNext" Click="btnNext_Click" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Image Width="24" Height="24" Source="\Images\nextpage.png" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
             </Grid>
 
 
@@ -111,14 +151,14 @@
 
         </Grid>
 
-        <Grid Grid.Row="2" x:Name="viewDraftEmail"  x:FieldModifier="public" Visibility="Collapsed"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+        <Grid Grid.Row="2" x:Name="viewDraftEmail" x:FieldModifier="public" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="44" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Padding="1" Margin="0 12 10 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+            <Button Grid.Row="0" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Margin="0 12 10 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -126,7 +166,8 @@
                 </Button.Resources>
                 <Image Width="24" Height="24" Source="\Images\prevpage.png" />
             </Button>
-            <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 0 0" >
+
+            <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="0 0 0 0" >
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
@@ -185,7 +226,7 @@
 
             </Grid>
 
-            <Grid Grid.Row="2" HorizontalAlignment="Left">
+            <Grid Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5 5 5 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
@@ -193,7 +234,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TabControl Grid.Row="0" Grid.Column="1" Name="Tabs1" TabStripPlacement="Top" Margin="5 5 0 0" Width="900" Height="400">
+                <TabControl Grid.Row="0" Grid.Column="1" Name="Tabs1" TabStripPlacement="Top" Width="900" VerticalAlignment="Stretch">
                     <TabItem IsSelected="True">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">

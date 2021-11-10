@@ -54,7 +54,7 @@ namespace bEmailing
         static int rowCount = 0;
         static int etaMin = 0;
         static DateTime startTime = DateTime.Now;
-        int tableDataCount = 0;
+        int tableRowCount = 0;
 
         public ucEmail()
         {
@@ -130,9 +130,11 @@ namespace bEmailing
                         dgvEmailData.Columns[0].Visibility = Visibility.Hidden;
                         dgvEmailData.Visibility = Visibility.Visible;
                         pbStatus.Value = 0;
-                        tableDataCount = dtEmaildata.Rows.Count;
+                        tableRowCount = dtEmaildata.Rows.Count;
+                        txtSuccessStatus.Text = "0";
+                        txtFailedStatus.Text = "0";
 
-                        lblCount.Text = "Status: " + tableDataCount.ToString() + "/" + tableDataCount.ToString();
+                        lblCount.Text = "Status: " + tableRowCount.ToString() + "/" + tableRowCount.ToString();
 
                     }
 
@@ -223,6 +225,8 @@ namespace bEmailing
                     lblSendmail.Text = "Stop Sending";
                     IsSendingEmail = true;
                     pbStatus.Value = 0;
+                    txtSuccessStatus.Text = "0";
+                    txtFailedStatus.Text = "0"; 
                     bwSending.RunWorkerAsync();
                 }
             }
@@ -243,7 +247,7 @@ namespace bEmailing
                 MessageBox.Show("Fill the SMTP configuration details", "Validation Failed");
                 return false;
             }
-            if (tableDataCount <= 0)
+            if (tableRowCount <= 0)
             {
                 MessageBox.Show("Select email data for bulk emailing", "Validation Failed");
                 return false;
@@ -310,7 +314,7 @@ namespace bEmailing
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
-            if (dtEmaildata == null || tableDataCount <= 0)
+            if (dtEmaildata == null || tableRowCount <= 0)
             {
                 MessageBox.Show("No record found", "Validation");
                 return;
@@ -336,7 +340,6 @@ namespace bEmailing
             {
                 if (dtEmaildata.Columns.Contains(colToName))
                     lblTo.Content = dtEmaildata.Rows[0][colToName].ToString();
-
             }
         }
 
@@ -531,8 +534,8 @@ namespace bEmailing
         }
         private void BwSending_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            lblCount.Text = "Status: " + (tableDataCount - counter).ToString() + "/" + tableDataCount.ToString();
-            decimal perc = ((decimal)counter / (decimal)tableDataCount) * 100;
+            lblCount.Text = "Status: " + (tableRowCount - counter).ToString() + "/" + tableRowCount.ToString();
+            decimal perc = ((decimal)counter / (decimal)tableRowCount) * 100;
             pbStatus.Value = Convert.ToInt32(perc);
             TimeSpan time = TimeSpan.FromSeconds(etaMin);
             string str = time.ToString(@"mm\:ss");
@@ -545,6 +548,12 @@ namespace bEmailing
             tmCounter.Stop();
             counter = 0;
             IsSendingEmail = false;
+
+            int failedCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Failed'").Length;
+            int successCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Success'").Length;
+            txtFailedStatus.Text = failedCount.ToString();
+            txtSuccessStatus.Text = successCount.ToString();
+
         }
 
         private void LogEmail(mEmailPreview mpreview, bool isSend)
@@ -573,11 +582,13 @@ namespace bEmailing
         {
             viewImportData.Visibility = Visibility.Collapsed;
             viewDraftEmail.Visibility = Visibility.Visible;
+            viewDraftEmail.Height = this.ActualHeight - 20;
         }
 
         private void btnPrev_Click(object sender, RoutedEventArgs e)
         {
             viewImportData.Visibility = Visibility.Visible;
+            viewImportData.Height = this.ActualHeight - 20;
             viewDraftEmail.Visibility = Visibility.Collapsed;
         }
     }
