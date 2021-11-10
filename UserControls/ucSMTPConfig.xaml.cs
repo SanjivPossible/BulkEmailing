@@ -16,12 +16,16 @@ namespace bEmailing
 
         RadioButton selectedEncryptrb;
         RadioButton selectedAuthrb;
+        DataTable dtSmtpServers = new DataTable();
+
         public ucSMTPConfig()
         {
             InitializeComponent();
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            dtSmtpServers = ReadSMTPTemplate();
+
             DataSet dsConfig = new DataSet();
             string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "AppConfig.xml";
             dsConfig.ReadXml(filename);
@@ -33,7 +37,7 @@ namespace bEmailing
             txtSmtpHost.Text = smptconfig.Rows[0]["smtphost"].ToString();
             txtSmtpPort.Text = smptconfig.Rows[0]["smtpport"].ToString();
             txtUserName.Text = smptconfig.Rows[0]["smtpusername"].ToString();
-            txtPassword.Text = smptconfig.Rows[0]["smtppassword"].ToString();
+            txtPassword.Password = smptconfig.Rows[0]["smtppassword"].ToString();
             string encryption = smptconfig.Rows[0]["smtpencryption"].ToString();
 
 
@@ -82,7 +86,7 @@ namespace bEmailing
                 }
                 if (UsernameAuth.IsChecked == true)
                 {
-                    if (string.IsNullOrEmpty(txtUserName.Text) && string.IsNullOrEmpty(txtPassword.Text))
+                    if (string.IsNullOrEmpty(txtUserName.Text) && string.IsNullOrEmpty(txtPassword.Password))
                     {
                         MessageBox.Show("Please enter user name and password", "Validation");
                         return;
@@ -92,7 +96,7 @@ namespace bEmailing
                 int port = 0;
                 if (Int32.TryParse(txtSmtpPort.Text, out port) == false)
                 {
-                    MessageBox.Show("Please enter SMTP Port in numeric","Validation");
+                    MessageBox.Show("Please enter SMTP Port in numeric", "Validation");
                     return;
                 }
 
@@ -103,7 +107,7 @@ namespace bEmailing
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpencryption"] = selectedEncryptrb.Content;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpauth"] = selectedAuthrb.Name;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpusername"] = txtUserName.Text;
-                dsConfig.Tables["smtpconfig"].Rows[0]["smtppassword"] = txtPassword.Text;
+                dsConfig.Tables["smtpconfig"].Rows[0]["smtppassword"] = txtPassword.Password;
 
                 dsConfig.WriteXml(filename);
 
@@ -114,7 +118,7 @@ namespace bEmailing
                 mEmailConfig.smtpencryption = selectedEncryptrb.Content.ToString();
                 mEmailConfig.smtpauth = selectedAuthrb.Name;
                 mEmailConfig.smtpusername = txtUserName.Text;
-                mEmailConfig.smtppassword = txtPassword.Text;
+                mEmailConfig.smtppassword = txtPassword.Password;
 
                 MessageBox.Show("Success: Data has been updated", "Validation");
             }
@@ -154,7 +158,7 @@ namespace bEmailing
                 }
                 else
                 {
-                    txtPassword.Text = "";
+                    txtPassword.Password = "";
                     txtUserName.Text = "";
                     txtUserName.IsEnabled = false;
                     txtPassword.IsEnabled = false;
@@ -162,5 +166,35 @@ namespace bEmailing
             }
         }
 
+        private void txtSmtpHost_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var find = dtSmtpServers.Select("smtpserver='" + txtSmtpHost.Text + "'");
+            if (find != null)
+            {
+                txtSmtpPort.Text = find[0]["port"].ToString();
+                rbSsl.IsChecked = true;
+                UsernameAuth.IsChecked = true;
+            }
+
+        }
+
+        private DataTable ReadSMTPTemplate()
+        {
+            DataTable dtSMTP = new DataTable();
+            dtSMTP.Columns.Add("smtpserver");
+            dtSMTP.Columns.Add("port");
+            dtSMTP.Columns.Add("ssl");
+
+            dtSMTP.Rows.Add(new object[] { "smtp.mail.yahoo.com", "587", "SSL" });
+            dtSMTP.Rows.Add(new object[] { "smtp.gmail.com", "587", "SSL" });
+            dtSMTP.Rows.Add(new object[] { "smtp-mail.outlook.com", "587", "SSL" });
+
+            foreach (DataRow dr in dtSMTP.Rows)
+            {
+                txtSmtpHost.Items.Add(dr["smtpserver"].ToString());
+            }
+
+            return dtSMTP;
+        }
     }
 }

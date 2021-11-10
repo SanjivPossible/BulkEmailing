@@ -27,55 +27,68 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Grid.Column="0" Margin="0 0 0 0">
-                <ProgressBar x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
+                <ProgressBar Foreground="#0072E5" Background="#eaf2fb" x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
                 <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
+            <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition  Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 0 0 10" HorizontalAlignment="Left">
+                    <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" Padding="3" BorderBrush="LightGray" Margin="5 10 0 0" HorizontalAlignment="Left">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Height="26" Width="26" Source="\Images\import.png" />
+                            <TextBlock Margin="5 4 0 0">Select Data</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnSendmail" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="LightGray" Margin="5 10 0 0" Click="btnSendmail_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image Grid.Column="0" Grid.Row="0" Height="26" Width="26" Source="\Images\send.png" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
+                        </Grid>
+                    </Button>
+                    <TextBlock x:Name="lblCount" Text="Status: 0/0" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                    <TextBlock x:Name="lblETA" Text="ETA(mm:ss): 00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                    <TextBlock x:Name="lblTimer" Text="Timer: 00:00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
+                    <Button x:Name="btnExport" Click="btnExport_Click" Height="30" Width="35" Padding="1" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Width="24" Height="24" Source="\Images\export.png" />
+                    </Button>
+                    <Button x:Name="btnNext" Click="btnNext_Click" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Width="24" Height="24" Source="\Images\nextpage.png" />
+                    </Button>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="0 0 0 10">
-                <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" Padding="3" BorderBrush="LightGray" Margin="5 10 0 0" HorizontalAlignment="Left">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Image Height="26" Width="26" Source="\Images\import.png" />
-                        <TextBlock Margin="5 4 0 0">Select Data</TextBlock>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="btnExport" Click="btnExport_Click" Width="120" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" BorderBrush="LightGray" Margin="5 10 0 0"  HorizontalAlignment="Left">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Image Height="26" Width="26" Source="\Images\export.png" />
-                        <TextBlock Margin="5 4 0 0">Export Data</TextBlock>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="btnSendmail" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="LightGray" Margin="5 10 0 0" Click="btnSendmail_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <Grid HorizontalAlignment="Left">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="80"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Image Grid.Column="0" Grid.Row="0" Height="26" Width="26" Source="\Images\send.png" HorizontalAlignment="Center" />
-                        <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
-                    </Grid>
-                </Button>
-                <TextBlock x:Name="lblCount" Text="Status: 0/0" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
-                <TextBlock x:Name="lblETA" Text="ETA(mm:ss): 00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
-                <TextBlock x:Name="lblTimer" Text="Timer: 00:00:00" FontSize="14" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
-            </StackPanel>
+                </StackPanel>
+            </Grid>
 
 
 
@@ -103,9 +116,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10 0 0" >
+            
+            <Button Grid.Row="0" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Padding="1" Margin="0 20 10 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+                <Image Width="24" Height="24" Source="\Images\prevpage.png" />
+            </Button>
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 10 0 0" >
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
@@ -131,11 +153,15 @@
                 <Label Grid.Row="1" Grid.Column="2" x:FieldModifier="public" x:Name="lblCc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
 
                 <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" >Bcc:</Label>
-                <ComboBox Grid.Row="2" Grid.Column="1"  x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbBcc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbBcc_TextChanged"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbBcc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbBcc_TextChanged"/>
+
+
                 <Label Grid.Row="2" Grid.Column="2" x:FieldModifier="public" x:Name="lblBcc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
 
                 <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Subject*:</Label>
                 <TextBox Grid.Row="3" Grid.Column="1" x:FieldModifier="public" FontSize="13" Margin="5 0 0 5" Height="30" Width="500"  x:Name="txtSubject"  HorizontalAlignment="Left" TextBoxBase.TextChanged="txtSubject_TextChanged"/>
+
+
                 <Label Grid.Row="3" Grid.Column="2" x:FieldModifier="public" x:Name="lblSubject" HorizontalAlignment="Left" Margin="5 0 0 5">Insert {column name} in subject line to preview with first record...</Label>
 
                 <StackPanel  Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
@@ -160,7 +186,7 @@
 
             </Grid>
 
-            <Grid Grid.Row="1" HorizontalAlignment="Left">
+            <Grid Grid.Row="2" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>

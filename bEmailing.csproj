@@ -19,7 +19,9 @@
 		<None Remove="Images\Help.png" />
 		<None Remove="Images\ImageToText.png" />
 		<None Remove="Images\import.png" />
+		<None Remove="Images\nextpage.png" />
 		<None Remove="Images\preview.png" />
+		<None Remove="Images\prevpage.png" />
 		<None Remove="Images\releasenote.png" />
 		<None Remove="Images\reset.png" />
 		<None Remove="Images\send.png" />
@@ -35,12 +37,14 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Resource Include="Images\attachment.png" />
+		<Resource Include="Images\prevpage.png" />
 		<Resource Include="Images\copy.png" />
 		<Resource Include="Images\edit.png" />
 		<Resource Include="Images\export.png" />
 		<Resource Include="Images\help.png" />
 		<Resource Include="Images\ImageToText.png" />
 		<Resource Include="Images\import.png" />
+		<Resource Include="Images\nextpage.png" />
 		<Resource Include="Images\preview.png" />
 		<Resource Include="Images\releasenote.png" />
 		<Resource Include="Images\reset.png" />

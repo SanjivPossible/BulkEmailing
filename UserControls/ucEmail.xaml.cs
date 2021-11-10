@@ -128,7 +128,7 @@ namespace bEmailing
 
                         dgvEmailData.ItemsSource = dtEmaildata.DefaultView;
                         dgvEmailData.Columns[0].Visibility = Visibility.Hidden;
-                        dgvEmailData.Visibility = Visibility.Visible;                        
+                        dgvEmailData.Visibility = Visibility.Visible;
                         pbStatus.Value = 0;
                         tableDataCount = dtEmaildata.Rows.Count;
 
@@ -569,6 +569,16 @@ namespace bEmailing
             return content;
         }
 
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            viewImportData.Visibility = Visibility.Collapsed;
+            viewDraftEmail.Visibility = Visibility.Visible;
+        }
 
+        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            viewImportData.Visibility = Visibility.Visible;
+            viewDraftEmail.Visibility = Visibility.Collapsed;
+        }
     }
 }
