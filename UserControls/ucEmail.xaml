@@ -95,25 +95,11 @@
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
 
                         <Border BorderBrush="LightGray" Background="#04AA6D" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
-                            <Label ToolTip="Email sent" Content="0" x:Name="txtSuccessStatus" MinWidth="45" Height="28" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                            <Label ToolTip="Email sent" Content="0" x:Name="txtSuccessStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </Border>
                         <Border BorderBrush="LightGray" Background="#ff4d4d" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
-                            <Label ToolTip="Failed to send" Content="0" x:Name="txtFailedStatus" MinWidth="45" Height="28" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                            <Label ToolTip="Failed to send" Content="0" x:Name="txtFailedStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </Border>
-                        <!--<TextBox x:Name="txtSuccessStatus" ToolTip="Email send" Text="0" IsReadOnly="True" MinWidth="20" Height="30" Background="#04AA6D" Foreground="White" Margin="1 0 0 0" BorderThickness="0 0 1 0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                            <TextBox.Resources>
-                                <Style TargetType="{x:Type Border}">
-                                    <Setter Property="CornerRadius" Value="5 0 0 5"/>
-                                </Style>
-                            </TextBox.Resources>
-                        </TextBox>
-                        <TextBox x:Name="txtFailedStatus" ToolTip="Failed to send" Text="0" IsReadOnly="True" MinWidth="20" Height="30" Background="#ff4d4d" Foreground="White" BorderThickness="0" Margin="0 0 1 0" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                            <TextBox.Resources>
-                                <Style TargetType="{x:Type Border}">
-                                    <Setter Property="CornerRadius" Value="0 5 5 0"/>
-                                </Style>
-                            </TextBox.Resources>
-                        </TextBox>-->
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 10 0">
