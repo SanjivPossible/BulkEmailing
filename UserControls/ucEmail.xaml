@@ -17,6 +17,7 @@
         <Grid Grid.Row="0" x:Name="gdSMTP" Grid.Column="0" Margin="0 0 0 0" HorizontalAlignment="Stretch" Background="#ff4d4d" Height="0" >
             <TextBlock x:Name="txtSMTP" Text="Smtp server is not responding, click here to refresh" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" />
         </Grid>
+
         <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 0 0">
             <ProgressBar Foreground="#0072E5" Background="#eaf2fb" x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -84,15 +85,22 @@
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0" >
                         <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1 1 0 1" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
-                            <Label ToolTip="Counter of remaining email to send" Content="0" x:Name="txtRowDecrement" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                            <Label ToolTip="Counter of remaining email to send" Content="0" x:Name="txtRowDecrement" MinWidth="45" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </Border>
                         <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1 1 1 1" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
-                            <Label ToolTip="No. of records" Content="0" x:Name="txtRowCount" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                            <Label ToolTip="No. of records" Content="0" x:Name="txtRowCount" MinWidth="45" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </Border>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
-                        <TextBox x:Name="txtSuccessStatus" ToolTip="Email send" Text="0" IsReadOnly="True" MinWidth="20" Height="30" Background="#04AA6D" Foreground="White" Margin="1 0 0 0" BorderThickness="0 0 1 0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+
+                        <Border BorderBrush="LightGray" Background="#04AA6D" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
+                            <Label ToolTip="Email sent" Content="0" x:Name="txtSuccessStatus" MinWidth="45" Height="28" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                        </Border>
+                        <Border BorderBrush="LightGray" Background="#ff4d4d" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
+                            <Label ToolTip="Failed to send" Content="0" x:Name="txtFailedStatus" MinWidth="45" Height="28" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                        </Border>
+                        <!--<TextBox x:Name="txtSuccessStatus" ToolTip="Email send" Text="0" IsReadOnly="True" MinWidth="20" Height="30" Background="#04AA6D" Foreground="White" Margin="1 0 0 0" BorderThickness="0 0 1 0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             <TextBox.Resources>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="CornerRadius" Value="5 0 0 5"/>
@@ -105,7 +113,7 @@
                                     <Setter Property="CornerRadius" Value="0 5 5 0"/>
                                 </Style>
                             </TextBox.Resources>
-                        </TextBox>
+                        </TextBox>-->
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 10 0">

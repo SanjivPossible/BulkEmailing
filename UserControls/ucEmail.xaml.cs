@@ -136,8 +136,8 @@ namespace beeEmailing
                         dgvEmailData.Visibility = Visibility.Visible;
                         pbStatus.Value = 0;
                         tableRowCount = dtEmaildata.Rows.Count;
-                        txtSuccessStatus.Text = "0";
-                        txtFailedStatus.Text = "0";
+                        txtSuccessStatus.Content = "0";
+                        txtFailedStatus.Content = "0";
                         txtRowCount.Content = tableRowCount.ToString();
                         txtRowDecrement.Content = tableRowCount.ToString();
                         
@@ -175,8 +175,8 @@ namespace beeEmailing
                     lblSendmail.Text = "Stop Sending";
                     IsSendingEmail = true;
                     pbStatus.Value = 0;
-                    txtSuccessStatus.Text = "0";
-                    txtFailedStatus.Text = "0";
+                    txtSuccessStatus.Content = "0";
+                    txtFailedStatus.Content = "0";
                     txtRowCount.Content = tableRowCount.ToString();
                     txtRowDecrement.Content = tableRowCount.ToString();
 
@@ -564,9 +564,8 @@ namespace beeEmailing
 
             int failedCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Failed'").Length;
             int successCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Success'").Length;
-            txtFailedStatus.Text = failedCount.ToString();
-            txtSuccessStatus.Text = successCount.ToString();
-
+            txtFailedStatus.Content = failedCount.ToString();
+            txtSuccessStatus.Content = successCount.ToString();
         }
 
 
