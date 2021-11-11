@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace bEmailing
+namespace beeEmailing
 {
     /// <summary>
     /// Interaction logic for frmReleaseNote.xaml

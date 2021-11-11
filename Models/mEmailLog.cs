@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace bEmailing
+namespace beeEmailing
 {
     public class mEmailLog
     {

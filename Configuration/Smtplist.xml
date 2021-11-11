@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<smtplist>
+	<smtp>		
+		<smtphost>smtp.mail.yahoo.com</smtphost>
+		<smtpport>587</smtpport>
+		<smtpencryption>Ssl</smtpencryption>		
+	</smtp>
+	<smtp>
+		<smtphost>smtp.gmail.com</smtphost>
+		<smtpport>587</smtpport>
+		<smtpencryption>Ssl</smtpencryption>
+	</smtp>
+	<smtp>
+		<smtphost>smtp-mail.outlook.com</smtphost>
+		<smtpport>587</smtpport>
+		<smtpencryption>Ssl</smtpencryption>
+	</smtp>
+</smtplist>

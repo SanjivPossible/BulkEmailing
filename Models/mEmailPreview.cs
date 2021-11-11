@@ -1,4 +1,4 @@
-﻿namespace bEmailing
+﻿namespace beeEmailing
 {
     public class mEmailPreview
     {

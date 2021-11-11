@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.IO;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
 
-namespace bEmailing
+namespace beeEmailing
 {
     /// <summary>
     /// Interaction logic for ucSMTPConfig.xaml
@@ -27,7 +28,7 @@ namespace bEmailing
             dtSmtpServers = ReadSMTPTemplate();
 
             DataSet dsConfig = new DataSet();
-            string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "AppConfig.xml";
+            string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Configuration\\AppConfig.xml";
             dsConfig.ReadXml(filename);
 
             DataTable smptconfig = dsConfig.Tables["smtpconfig"];
@@ -75,7 +76,7 @@ namespace bEmailing
             try
             {
                 DataSet dsConfig = new DataSet();
-                string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "AppConfig.xml";
+                string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Configuration\\AppConfig.xml";
                 dsConfig.ReadXml(filename);
 
 
@@ -119,6 +120,12 @@ namespace bEmailing
                 mEmailConfig.smtpauth = selectedAuthrb.Name;
                 mEmailConfig.smtpusername = txtUserName.Text;
                 mEmailConfig.smtppassword = txtPassword.Password;
+
+                var isOpen = CheckSMTPConnection(txtSmtpHost.Text, port);
+                if (isOpen == false)
+                {
+                    MessageBox.Show("The selected SMTP Server is not responding on the port from this machine, might not able to send the email, please revalidate SMTP Server and Port.", "Validation Warning!");
+                }
 
                 MessageBox.Show("Success: Data has been updated", "Validation");
             }
@@ -168,33 +175,64 @@ namespace bEmailing
 
         private void txtSmtpHost_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var find = dtSmtpServers.Select("smtpserver='" + txtSmtpHost.Text + "'");
-            if (find != null && find.Length > 0)
+            if (dtSmtpServers != null && dtSmtpServers.Rows.Count > 0)
             {
-                txtSmtpPort.Text = find[0]["port"].ToString();
-                rbSsl.IsChecked = true;
-                UsernameAuth.IsChecked = true;
+                var find = dtSmtpServers.Select("smtphost='" + txtSmtpHost.Text + "'");
+                if (find != null && find.Length > 0)
+                {
+                    txtSmtpPort.Text = find[0]["smtpport"].ToString();
+                    rbSsl.IsChecked = true;
+                    UsernameAuth.IsChecked = true;
+                }
             }
 
         }
 
         private DataTable ReadSMTPTemplate()
         {
-            DataTable dtSMTP = new DataTable();
-            dtSMTP.Columns.Add("smtpserver");
-            dtSMTP.Columns.Add("port");
-            dtSMTP.Columns.Add("ssl");
+            DataSet dsSmtp = new DataSet();
+            string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Configuration\\Smtplist.xml";
+            dsSmtp.ReadXml(filename);
 
-            dtSMTP.Rows.Add(new object[] { "smtp.mail.yahoo.com", "587", "SSL" });
-            dtSMTP.Rows.Add(new object[] { "smtp.gmail.com", "587", "SSL" });
-            dtSMTP.Rows.Add(new object[] { "smtp-mail.outlook.com", "587", "SSL" });
-
-            foreach (DataRow dr in dtSMTP.Rows)
+            if (dsSmtp.Tables.Count > 0)
             {
-                txtSmtpHost.Items.Add(dr["smtpserver"].ToString());
+                foreach (DataRow dr in dsSmtp.Tables[0].Rows)
+                {
+                    txtSmtpHost.Items.Add(dr["smtphost"].ToString());
+                }
             }
 
-            return dtSMTP;
+            if (dsSmtp.Tables.Count > 0)
+            {
+                return dsSmtp.Tables[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+        private bool CheckSMTPConnection(string smtpserver, int port)
+        {
+            bool isOpen = false;
+            TcpClient tc = null;
+            try
+            {
+                tc = new TcpClient(smtpserver, port);
+                isOpen = true;
+            }
+            catch (Exception se)
+            {
+
+            }
+            finally
+            {
+                if (tc != null)
+                {
+                    tc.Close();
+                }
+            }
+
+            return isOpen;
         }
     }
 }

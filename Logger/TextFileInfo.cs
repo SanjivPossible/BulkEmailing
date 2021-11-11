@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace bEmailing
+namespace beeEmailing
 {
     public static class TextFileInfo
     {

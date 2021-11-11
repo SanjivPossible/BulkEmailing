@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ using System.Windows.Documents;
 using System.Windows.Threading;
 
 
-namespace bEmailing
+namespace beeEmailing
 {
     /// <summary>
     /// Interaction logic for ucEmail.xaml
@@ -38,10 +39,12 @@ namespace bEmailing
         EmailLogger emailLogger = new EmailLogger();
         DataSet dsConfig = new DataSet();
         BackgroundWorker bwSending = new BackgroundWorker();
+        BackgroundWorker bwSmtpValidation = new BackgroundWorker();
         DispatcherTimer tmCounter = new DispatcherTimer();
         OpenFileDialog openFileDialogAttachment = new OpenFileDialog();
 
         bool IsSendingEmail = false;
+        bool IsSmtpOpen = true;
 
         string toColumn = string.Empty;
         string ccColumn = string.Empty;
@@ -67,17 +70,18 @@ namespace bEmailing
             bwSending.ProgressChanged += BwSending_ProgressChanged;
             bwSending.WorkerSupportsCancellation = true;
 
+            bwSmtpValidation.DoWork += BwSmtpValidation_DoWork;
+            bwSmtpValidation.RunWorkerCompleted += BwSmtpValidation_RunWorkerCompleted;
         }
 
         private void TmCounter_Tick(object? sender, EventArgs e)
         {
             TimeSpan ts = (DateTime.Now - dtStartTimer);
-            lblTimer.Text = "Timer: " + ts.ToString(@"hh\:mm\:ss");
+            lblTimer.Content = ts.ToString(@"hh\:mm\:ss");
         }
 
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
-
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Multiselect = false;
             openFileDialog1.ValidateNames = true;
@@ -133,9 +137,9 @@ namespace bEmailing
                         tableRowCount = dtEmaildata.Rows.Count;
                         txtSuccessStatus.Text = "0";
                         txtFailedStatus.Text = "0";
-
-                        lblCount.Text = "Status: " + tableRowCount.ToString() + "/" + tableRowCount.ToString();
-
+                        txtRowCount.Content = tableRowCount.ToString();
+                        txtRowDecrement.Content = tableRowCount.ToString();
+                        if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
                     }
 
                 }
@@ -145,6 +149,47 @@ namespace bEmailing
                 }
             }
         }
+        private void btnSendmail_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsSendingEmail == false)
+            {
+                ReadConfig();
+                if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+                bool isvalid = DataValidationCheck();
+                if (isvalid == false) return;
+
+
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to send email to all recipient?" + Environment.NewLine + "You can stop sending email while clicking the same button.", "Confirmation", MessageBoxButton.OKCancel);
+                if (MessageBoxResult.OK == result && bwSending.IsBusy == false)
+                {
+                    strSubect = txtSubject.Text;
+                    strBody = new TextRange(txtBody.Document.ContentStart, txtBody.Document.ContentEnd).Text;
+
+                    dtStartTimer = DateTime.Now;
+                    tmCounter.Start();
+
+                    btnImport.IsEnabled = false;
+                    lblSendmail.Text = "Stop Sending";
+                    IsSendingEmail = true;
+                    pbStatus.Value = 0;
+                    txtSuccessStatus.Text = "0";
+                    txtFailedStatus.Text = "0";
+                    txtRowCount.Content = tableRowCount.ToString();
+                    txtRowDecrement.Content = tableRowCount.ToString();
+
+                    bwSending.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to stop sending email?", "Confirmation", MessageBoxButton.OKCancel);
+                if (MessageBoxResult.OK == result && bwSending.IsBusy)
+                {
+                    bwSending.CancelAsync();
+                }
+            }
+        }
+
         private void FillComboBox(DataTable dt)
         {
             cmbTo.Items.Clear();
@@ -204,41 +249,6 @@ namespace bEmailing
             lblAttachment.Content = string.Empty;
         }
 
-        private void btnSendmail_Click(object sender, RoutedEventArgs e)
-        {
-            if (IsSendingEmail == false)
-            {
-                ReadConfig();
-                bool isvalid = DataValidationCheck();
-                if (isvalid == false) return;
-
-                MessageBoxResult result = MessageBox.Show("Are you sure you want to send email to all recipient?" + Environment.NewLine + "You can stop sending email while clicking the same button.", "Confirmation", MessageBoxButton.OKCancel);
-                if (MessageBoxResult.OK == result && bwSending.IsBusy == false)
-                {
-                    strSubect = txtSubject.Text;
-                    strBody = new TextRange(txtBody.Document.ContentStart, txtBody.Document.ContentEnd).Text;
-
-                    dtStartTimer = DateTime.Now;
-                    tmCounter.Start();
-
-                    btnImport.IsEnabled = false;
-                    lblSendmail.Text = "Stop Sending";
-                    IsSendingEmail = true;
-                    pbStatus.Value = 0;
-                    txtSuccessStatus.Text = "0";
-                    txtFailedStatus.Text = "0"; 
-                    bwSending.RunWorkerAsync();
-                }
-            }
-            else
-            {
-                MessageBoxResult result = MessageBox.Show("Are you sure you want to stop sending email?", "Confirmation", MessageBoxButton.OKCancel);
-                if (MessageBoxResult.OK == result && bwSending.IsBusy)
-                {
-                    bwSending.CancelAsync();
-                }
-            }
-        }
 
         private bool DataValidationCheck()
         {
@@ -429,7 +439,7 @@ namespace bEmailing
             try
             {
                 dsConfig.Clear();
-                string filename = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + "AppConfig.xml";
+                string filename = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Configuration\\AppConfig.xml";
                 dsConfig.ReadXml(filename);
                 DataTable smptconfig = dsConfig.Tables["smtpconfig"];
 
@@ -534,7 +544,7 @@ namespace bEmailing
         }
         private void BwSending_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            lblCount.Text = "Status: " + (tableRowCount - counter).ToString() + "/" + tableRowCount.ToString();
+            txtRowDecrement.Content = (tableRowCount - counter).ToString();
             decimal perc = ((decimal)counter / (decimal)tableRowCount) * 100;
             pbStatus.Value = Convert.ToInt32(perc);
             TimeSpan time = TimeSpan.FromSeconds(etaMin);
@@ -555,6 +565,7 @@ namespace bEmailing
             txtSuccessStatus.Text = successCount.ToString();
 
         }
+
 
         private void LogEmail(mEmailPreview mpreview, bool isSend)
         {
@@ -590,6 +601,60 @@ namespace bEmailing
             viewImportData.Visibility = Visibility.Visible;
             viewImportData.Height = this.ActualHeight - 20;
             viewDraftEmail.Visibility = Visibility.Collapsed;
+        }
+
+        private void TextBlock_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+        }
+
+        private bool CheckSMTPConnection(string smtpserver, int port)
+        {
+            bool isOpen = false;
+            TcpClient tc = null;
+            try
+            {
+                tc = new TcpClient(smtpserver, port);
+                isOpen = true;
+            }
+            catch (Exception se)
+            { }
+            finally
+            {
+                if (tc != null)
+                {
+                    tc.Close();
+                }
+            }
+            return isOpen;
+        }
+
+
+        private void BwSmtpValidation_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(mEmailConfig.smtpport))
+                {
+                    IsSmtpOpen = CheckSMTPConnection(mEmailConfig.smtphost, Convert.ToInt32(mEmailConfig.smtpport));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        private void BwSmtpValidation_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+            if (IsSmtpOpen)
+            {
+                gdSMTP.Height = 0;
+            }
+            else
+            {
+                gdSMTP.Height = 20;
+            }
         }
     }
 }

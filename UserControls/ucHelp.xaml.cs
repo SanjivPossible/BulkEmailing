@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace bEmailing
+namespace beeEmailing
 {
     /// <summary>
     /// Interaction logic for ucHelp.xaml
