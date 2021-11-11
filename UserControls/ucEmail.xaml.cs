@@ -72,6 +72,7 @@ namespace beeEmailing
 
             bwSmtpValidation.DoWork += BwSmtpValidation_DoWork;
             bwSmtpValidation.RunWorkerCompleted += BwSmtpValidation_RunWorkerCompleted;
+            ReadConfig();
         }
 
         private void TmCounter_Tick(object? sender, EventArgs e)
@@ -139,7 +140,9 @@ namespace beeEmailing
                         txtFailedStatus.Text = "0";
                         txtRowCount.Content = tableRowCount.ToString();
                         txtRowDecrement.Content = tableRowCount.ToString();
-                        if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+                        
+                        if (bwSmtpValidation.IsBusy == false)bwSmtpValidation.RunWorkerAsync();
+                        
                     }
 
                 }
@@ -605,7 +608,11 @@ namespace beeEmailing
 
         private void TextBlock_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+            if (bwSmtpValidation.IsBusy == false)
+            {
+                txtSMTP.Text = "Refreshing...";
+                bwSmtpValidation.RunWorkerAsync();
+            }
         }
 
         private bool CheckSMTPConnection(string smtpserver, int port)
@@ -654,6 +661,7 @@ namespace beeEmailing
             else
             {
                 gdSMTP.Height = 20;
+                txtSMTP.Text = "Smtp server is not responding, click here to refresh";
             }
         }
     }

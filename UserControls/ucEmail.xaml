@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:beeEmailing"
              mc:Ignorable="d" x:Name="userControlEmail">
 
-
     <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="100 0 100 0">
 
         <Grid.RowDefinitions>
@@ -16,7 +15,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" x:Name="gdSMTP" Grid.Column="0" Margin="0 0 0 0" HorizontalAlignment="Stretch" Background="#ff4d4d" Height="0" >
-            <TextBlock Text="SMTP server is not responding, click here to refresh" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" />
+            <TextBlock x:Name="txtSMTP" Text="Smtp server is not responding, click here to refresh" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 0 0">
             <ProgressBar Foreground="#0072E5" Background="#eaf2fb" x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
