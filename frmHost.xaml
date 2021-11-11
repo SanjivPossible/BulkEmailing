@@ -26,6 +26,9 @@
                     <RibbonButton LargeImageSource="Images\help.png" Label="Help" Name="btnHelp"  KeyTip="H"  Click="btnHelp_Click" />
                     <RibbonButton LargeImageSource="Images\releasenote.png" Label="Release Note" x:Name="btnReleaseNote"  KeyTip="N" Click="btnReleaseNote_Click" />
                 </RibbonGroup>
+                <RibbonGroup>
+                    <RibbonButton LargeImageSource="Images\signout.png" Label="Exit" KeyTip="S" Name="Exit" Click="Exit_Click" />
+                </RibbonGroup>
             </RibbonTab>           
         </Ribbon>
 

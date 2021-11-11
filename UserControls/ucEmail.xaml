@@ -110,7 +110,7 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 10 0">
-                        <Button x:Name="btnExport" Click="btnExport_Click" Height="30" Width="35" Padding="1" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
+                        <Button x:Name="btnExport" Click="btnExport_Click" ToolTip="Export all records" Height="30" Width="35" Padding="1" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
@@ -118,7 +118,7 @@
                             </Button.Resources>
                             <Image Width="24" Height="24" Source="\Images\export.png" />
                         </Button>
-                        <Button x:Name="btnNext" Click="btnNext_Click" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                        <Button x:Name="btnNext" Click="btnNext_Click" ToolTip="Draft email" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>

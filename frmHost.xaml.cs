@@ -114,5 +114,10 @@ namespace beeEmailing
             frm.ShowDialog();
             this.Title = "beeEmailing : Release Note";
         }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

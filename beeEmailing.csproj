@@ -29,6 +29,7 @@
 		<None Remove="Images\reset.png" />
 		<None Remove="Images\send.png" />
 		<None Remove="Images\settings.png" />
+		<None Remove="Images\signout.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -58,6 +59,7 @@
 		<Resource Include="Images\reset.png" />
 		<Resource Include="Images\send.png" />
 		<Resource Include="Images\settings.png" />
+		<Resource Include="Images\signout.png" />
 	</ItemGroup>
 
 	<ItemGroup>
