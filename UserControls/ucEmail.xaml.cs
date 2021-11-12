@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 
@@ -140,9 +142,9 @@ namespace beeEmailing
                         txtFailedStatus.Content = "0";
                         txtRowCount.Content = tableRowCount.ToString();
                         txtRowDecrement.Content = tableRowCount.ToString();
-                        
-                        if (bwSmtpValidation.IsBusy == false)bwSmtpValidation.RunWorkerAsync();
-                        
+
+                        if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+
                     }
 
                 }
@@ -152,12 +154,23 @@ namespace beeEmailing
                 }
             }
         }
+
         private void btnSendmail_Click(object sender, RoutedEventArgs e)
         {
             if (IsSendingEmail == false)
             {
                 ReadConfig();
                 if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+                if (string.IsNullOrEmpty(mEmailConfig.emailfrom))
+                {
+                    MessageBox.Show("Fill the SMTP configuration details", "Validation Failed");
+                    return;
+                }
+                if (tableRowCount <= 0)
+                {
+                    MessageBox.Show("Select email data for bulk emailing", "Validation Failed");
+                    return;
+                }
                 bool isvalid = DataValidationCheck();
                 if (isvalid == false) return;
 
@@ -252,19 +265,8 @@ namespace beeEmailing
             lblAttachment.Content = string.Empty;
         }
 
-
         private bool DataValidationCheck()
         {
-            if (string.IsNullOrEmpty(mEmailConfig.emailfrom))
-            {
-                MessageBox.Show("Fill the SMTP configuration details", "Validation Failed");
-                return false;
-            }
-            if (tableRowCount <= 0)
-            {
-                MessageBox.Show("Select email data for bulk emailing", "Validation Failed");
-                return false;
-            }
 
             string strBody = new TextRange(txtBody.Document.ContentStart, txtBody.Document.ContentEnd).Text;
             if (string.IsNullOrEmpty(cmbTo.Text) || string.IsNullOrEmpty(txtSubject.Text) || string.IsNullOrEmpty(strBody))
@@ -279,12 +281,18 @@ namespace beeEmailing
                 if (dtEmaildata.Columns.Contains(toColumn) == false)
                 {
                     MessageBox.Show("To field does not match with selected data columns");
+                    return false;
                 }
             }
             else
             {
-                MessageBox.Show("To field does not contains correct format, column should enclosed with curly braket");
-                return false;
+                bool isValid = IsValidEmail(cmbTo.Text);
+                if (isValid == false)
+                {
+                    MessageBox.Show("The email (To) does not match a correct email format");
+                    return false;
+                }
+
             }
 
             if (!string.IsNullOrEmpty(cmbCc.Text))
@@ -299,8 +307,12 @@ namespace beeEmailing
                 }
                 else
                 {
-                    MessageBox.Show("Cc field does not contains correct format, column should enclosed with curly braket");
-                    return false;
+                    bool isValid = IsValidEmail(cmbTo.Text);
+                    if (isValid == false)
+                    {
+                        MessageBox.Show("The email (Cc) does not match a correct email format");
+                        return false;
+                    }
                 }
             }
 
@@ -316,8 +328,12 @@ namespace beeEmailing
                 }
                 else
                 {
-                    MessageBox.Show("Bcc field does not contains correct format, column should enclosed with curly braket");
-                    return false;
+                    bool isValid = IsValidEmail(cmbTo.Text);
+                    if (isValid == false)
+                    {
+                        MessageBox.Show("The email (Bcc) does not match a correct email format");
+                        return false;
+                    }
                 }
             }
 
@@ -347,38 +363,55 @@ namespace beeEmailing
 
         private void cmbTo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lblTo.Content = string.Empty;
-            string colToName = cmbTo.Text.Replace("{", "").Replace("}", "");
+            ValidateValue(cmbTo, lblTo);
+        }
+
+        private void ValidateValue(ComboBox cmbText, Label lblText)
+        {
+            lblText.Content = string.Empty;
+            string colToName = cmbText.Text.Replace("{", "").Replace("}", "");
             if (!string.IsNullOrEmpty(colToName))
             {
                 if (dtEmaildata.Columns.Contains(colToName))
-                    lblTo.Content = dtEmaildata.Rows[0][colToName].ToString();
+                {
+                    bool isvalid = IsValidEmail(dtEmaildata.Rows[0][colToName].ToString());
+                    if (isvalid == false)
+                    {
+                        lblText.Content = "Not a valid email id";
+                        lblText.Foreground = new SolidColorBrush(Colors.Red);
+                    }
+                    else
+                    {
+                        lblText.Content = dtEmaildata.Rows[0][colToName].ToString();
+                        lblText.Foreground = new SolidColorBrush(Colors.Black);
+                    }
+
+                }
+                else
+                {
+                    bool isvalid = IsValidEmail(cmbText.Text.Trim());
+                    if (isvalid == false)
+                    {
+                        lblText.Content = "Not a valid email id";
+                        lblText.Foreground = new SolidColorBrush(Colors.Red);
+                    }
+                    else
+                    {
+                        lblText.Content = cmbText.Text.Trim();
+                        lblText.Foreground = new SolidColorBrush(Colors.Black);
+                    }
+                }
             }
         }
 
         private void cmbCc_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lblCc.Content = string.Empty;
-            string colCcName = cmbCc.Text.Replace("{", "").Replace("}", "");
-            if (!string.IsNullOrEmpty(colCcName))
-            {
-                if (dtEmaildata.Columns.Contains(colCcName))
-                    lblCc.Content = dtEmaildata.Rows[0][colCcName].ToString();
-
-            }
-
+            ValidateValue(cmbCc, lblCc);
         }
 
         private void cmbBcc_TextChanged(object sender, TextChangedEventArgs e)
         {
-            lblBcc.Content = string.Empty;
-            string colName = cmbBcc.Text.Replace("{", "").Replace("}", "");
-            if (!string.IsNullOrEmpty(colName))
-            {
-                if (dtEmaildata.Columns.Contains(colName))
-                    lblBcc.Content = dtEmaildata.Rows[0][colName].ToString();
-
-            }
+            ValidateValue(cmbBcc, lblBcc);
         }
 
         private void txtSubject_TextChanged(object sender, TextChangedEventArgs e)
@@ -568,7 +601,6 @@ namespace beeEmailing
             txtSuccessStatus.Content = successCount.ToString();
         }
 
-
         private void LogEmail(mEmailPreview mpreview, bool isSend)
         {
             mEmailLog oEmailLog = new mEmailLog();
@@ -614,6 +646,43 @@ namespace beeEmailing
             }
         }
 
+        private void BwSmtpValidation_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(mEmailConfig.smtpport))
+                {
+                    IsSmtpOpen = CheckSMTPConnection(mEmailConfig.smtphost, Convert.ToInt32(mEmailConfig.smtpport));
+                }
+            }
+            catch (Exception)
+            { }
+
+        }
+        private void BwSmtpValidation_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+            if (IsSmtpOpen)
+            {
+                gdSMTP.Height = 0;
+            }
+            else
+            {
+                gdSMTP.Height = 20;
+                txtSMTP.Text = "Smtp server is not responding, click here to refresh";
+            }
+        }
+        public bool IsValidEmail(string emailaddress)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         private bool CheckSMTPConnection(string smtpserver, int port)
         {
             bool isOpen = false;
@@ -636,32 +705,5 @@ namespace beeEmailing
         }
 
 
-        private void BwSmtpValidation_DoWork(object? sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(mEmailConfig.smtpport))
-                {
-                    IsSmtpOpen = CheckSMTPConnection(mEmailConfig.smtphost, Convert.ToInt32(mEmailConfig.smtpport));
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-        }
-        private void BwSmtpValidation_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
-        {
-            if (IsSmtpOpen)
-            {
-                gdSMTP.Height = 0;
-            }
-            else
-            {
-                gdSMTP.Height = 20;
-                txtSMTP.Text = "Smtp server is not responding, click here to refresh";
-            }
-        }
     }
 }

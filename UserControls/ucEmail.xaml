@@ -46,10 +46,18 @@
                                 <Setter Property="CornerRadius" Value="5"/>
                             </Style>
                         </Button.Resources>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <Image Height="26" Width="26" Source="\Images\import.png" />
-                            <TextBlock Margin="5 4 0 0">Select Data</TextBlock>
-                        </StackPanel>
+
+                        <Grid HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image Grid.Column="0" Grid.Row="0" Height="26" Width="26" Source="\Images\import.png" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Select Data</TextBlock>
+                        </Grid>                        
                     </Button>
                     <Button x:Name="btnSendmail" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="LightGray" Margin="5 10 0 0" Click="btnSendmail_Click">
                         <Button.Resources>
