@@ -105,7 +105,6 @@ namespace beeEmailing
                     {
 
                         dtEmaildata.Clear();
-
                         dgvEmailData.ItemsSource = null;
 
                         DataTable dt = oExcel.GetDataTableFromExcel(selectedFile);
@@ -142,6 +141,8 @@ namespace beeEmailing
                         txtFailedStatus.Content = "0";
                         txtRowCount.Content = tableRowCount.ToString();
                         txtRowDecrement.Content = tableRowCount.ToString();
+                        lblTimer.Content = "00:00:00";
+                        lblTimer.Visibility = Visibility.Hidden;
 
                         if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
 
@@ -161,6 +162,7 @@ namespace beeEmailing
             {
                 ReadConfig();
                 if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
+                lblPbStatus.Visibility = Visibility.Hidden;
                 if (string.IsNullOrEmpty(mEmailConfig.emailfrom))
                 {
                     MessageBox.Show("Fill the SMTP configuration details", "Validation Failed");
@@ -192,6 +194,7 @@ namespace beeEmailing
                     txtFailedStatus.Content = "0";
                     txtRowCount.Content = tableRowCount.ToString();
                     txtRowDecrement.Content = tableRowCount.ToString();
+                    lblPbStatus.Visibility = Visibility.Visible;
 
                     bwSending.RunWorkerAsync();
                 }

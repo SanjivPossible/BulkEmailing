@@ -22,7 +22,7 @@
         <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 0 0">
             <ProgressBar Foreground="#0072E5" Background="#eaf2fb" x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock x:Name="lblPbStatus" Visibility="Hidden" Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </StackPanel>
         </Grid>
 
