@@ -25,6 +25,7 @@
                     <RibbonButton x:Name="btnImgText" LargeImageSource="{fa:IconSource Image, Foreground=#183153}" Label="Convert Image to Text" KeyTip="M"  Click="btnImgText_Click"/>
                     <RibbonButton LargeImageSource="{fa:IconSource InfoCircle, Foreground=#183153}" Label="Help" Name="btnHelp"  KeyTip="H"  Click="btnHelp_Click" />
                     <RibbonButton LargeImageSource="{fa:IconSource StickyNote, Foreground=#183153}" Label="Release Note" x:Name="btnReleaseNote"  KeyTip="N" Click="btnReleaseNote_Click" />
+                    <RibbonButton LargeImageSource="{fa:IconSource FileAlt, Foreground=#183153}" Label="Logs" x:Name="btnLog"  KeyTip="L" Click="btnLog_Click" />
                 </RibbonGroup>
                 <RibbonGroup>
                     <RibbonButton LargeImageSource="{fa:IconSource SignOutAlt, Foreground=#183153}" Label="Exit" KeyTip="S" Name="Exit" Click="Exit_Click" />

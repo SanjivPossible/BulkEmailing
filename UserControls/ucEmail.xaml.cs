@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.IO;
-using System.Linq;
 using System.Net.Mail;
 using System.Net.Sockets;
 using System.Reflection;
@@ -31,8 +30,10 @@ namespace beeEmailing
 
         const string COL_EMAILSTATUS = "EmailStatus";
         const string COL_ROWID = "Row_Id";
-        DateTime dtStartTimer = DateTime.Now;
+        const string SUCCESS = "Success";
+        const string FAILED = "Failed";
 
+        DateTime dtStartTimer = DateTime.Now;
         FileInfo EmailAttachment = null;
 
         Excel oExcel = new Excel();
@@ -58,7 +59,6 @@ namespace beeEmailing
         static int counter = 0;
         static int rowCount = 0;
         static int etaMin = 0;
-        static DateTime startTime = DateTime.Now;
         int tableRowCount = 0;
 
         public ucEmail()
@@ -104,8 +104,7 @@ namespace beeEmailing
                     else
                     {
 
-                        dtEmaildata.Clear();
-                        dgvEmailData.ItemsSource = null;
+                        ResetColumn();
 
                         DataTable dt = oExcel.GetDataTableFromExcel(selectedFile);
                         using (DbDataReader dr = dt.CreateDataReader())
@@ -141,8 +140,8 @@ namespace beeEmailing
                         txtFailedStatus.Content = "0";
                         txtRowCount.Content = tableRowCount.ToString();
                         txtRowDecrement.Content = tableRowCount.ToString();
-                        lblTimer.Content = "00:00:00";
-                        lblTimer.Visibility = Visibility.Hidden;
+                        lblTimer.Content = "00 : 00 : 00";
+                        lblPbStatus.Visibility = Visibility.Hidden;
 
                         if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
 
@@ -211,23 +210,18 @@ namespace beeEmailing
 
         private void FillComboBox(DataTable dt)
         {
-            cmbTo.Items.Clear();
-            cmbCc.Items.Clear();
-            cmbBcc.Items.Clear();
+
             foreach (DataColumn cl in dtEmaildata.Columns)
             {
                 if (cl.ColumnName.Equals(COL_ROWID) || cl.ColumnName.Equals(COL_EMAILSTATUS)) continue;
                 cmbTo.Items.Add("{" + cl.ColumnName + "}");
             }
 
-            cmbCc.Items.Add("");
-            cmbBcc.Items.Add("");
             foreach (DataColumn cl in dtEmaildata.Columns)
             {
                 if (cl.ColumnName.Equals(COL_ROWID) || cl.ColumnName.Equals(COL_EMAILSTATUS)) continue;
                 cmbCc.Items.Add("{" + cl.ColumnName + "}");
                 cmbBcc.Items.Add("{" + cl.ColumnName + "}");
-
             }
         }
 
@@ -573,7 +567,7 @@ namespace beeEmailing
 
             lock (dtEmaildata)
             {
-                tModel.Row[COL_EMAILSTATUS] = isSend ? "Success" : "Failed";
+                tModel.Row[COL_EMAILSTATUS] = isSend ? SUCCESS : FAILED;
                 LogEmail(mpreview, isSend);
                 TimeSpan ts = (DateTime.Now - dtStartTimer);
                 etaMin = (int)((ts.TotalSeconds / counter) * (rowCount - counter));
@@ -706,6 +700,24 @@ namespace beeEmailing
             }
             return isOpen;
         }
+
+        private void ResetColumn()
+        {
+            dtEmaildata.Clear();
+            dgvEmailData.ItemsSource = null;
+
+            cmbTo.Items.Clear();
+            cmbCc.Items.Clear();
+            cmbBcc.Items.Clear();
+
+            cmbTo.Text=string.Empty;
+            cmbCc.Text = string.Empty;
+            cmbBcc.Text = string.Empty;
+
+            txtSubject.Text = string.Empty;
+            txtBody.Document.Blocks.Clear();
+        }
+
 
 
     }
