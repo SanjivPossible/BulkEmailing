@@ -1,10 +1,10 @@
-# bEmailing (Bulk/mass Emailing)
+# beeEmailing (Bulk/mass Emailing)
 
 Send personalize bulk email for marketing campaigns/company communication with configured SMTP server.
 
-With bEmailing you can: select recipients (email addresses) and neccessary informaton that will be the part of To,CC,BCC, Subject Line, Body. Draft an Email Subject (Text format) and Body (HTML format) of email including images, send and track them on fingure tip.
+With beeEmailing you can: select recipients (email addresses) and neccessary informaton that will be the part of To,CC,BCC, Subject Line, Body. Draft an Email Subject (Text format) and Body (HTML format) of email including images, send and track them on fingure tip.
 
-The biggest magic of bEmailing: SEND MILLIONS OF EMAILS WITHIN SECONDS FROM YOUR LOCAL SYSTEM!
+The biggest magic of beeEmailing: SEND MILLIONS OF EMAILS WITHIN SECONDS FROM YOUR LOCAL SYSTEM!
 
 # Getting Started
 
@@ -28,4 +28,4 @@ We use Visual Studio 2022 (community version).
 Feel free to <a href="mailto:sanjiv.possible@gmail.com">contact us</a> if you have any question
 
 # License
-bEmailing is available under the MIT license. 
+beeEmailing is available under the MIT license. 
