@@ -43,6 +43,7 @@ namespace beeEmailing
         DataSet dsConfig = new DataSet();
         BackgroundWorker bwSending = new BackgroundWorker();
         BackgroundWorker bwSmtpValidation = new BackgroundWorker();
+        BackgroundWorker bwEmailValidation = new BackgroundWorker();
         DispatcherTimer tmCounter = new DispatcherTimer();
         OpenFileDialog openFileDialogAttachment = new OpenFileDialog();
 
@@ -74,6 +75,10 @@ namespace beeEmailing
 
             bwSmtpValidation.DoWork += BwSmtpValidation_DoWork;
             bwSmtpValidation.RunWorkerCompleted += BwSmtpValidation_RunWorkerCompleted;
+
+            bwEmailValidation.DoWork += BwEmailValidation_DoWork;
+            bwEmailValidation.RunWorkerCompleted += BwEmailValidation_RunWorkerCompleted;
+
             ReadConfig();
         }
 
@@ -159,7 +164,6 @@ namespace beeEmailing
         {
             if (IsSendingEmail == false)
             {
-                ReadConfig();
                 if (bwSmtpValidation.IsBusy == false) bwSmtpValidation.RunWorkerAsync();
                 lblPbStatus.Visibility = Visibility.Hidden;
                 if (string.IsNullOrEmpty(mEmailConfig.emailfrom))
@@ -360,18 +364,21 @@ namespace beeEmailing
 
         private void cmbTo_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidateValue(cmbTo, lblTo);
+            if (bwEmailValidation.IsBusy) bwEmailValidation.CancelAsync();
+
+            ValidateValue(cmbTo, lblTo, out toColumn);
+
         }
 
-        private void ValidateValue(ComboBox cmbText, Label lblText)
+        private void ValidateValue(ComboBox cmbText, Label lblText, out string strColVariable)
         {
             lblText.Content = string.Empty;
-            string colToName = cmbText.Text.Replace("{", "").Replace("}", "");
-            if (!string.IsNullOrEmpty(colToName))
+            strColVariable = cmbText.Text.Replace("{", "").Replace("}", "");
+            if (!string.IsNullOrEmpty(strColVariable))
             {
-                if (dtEmaildata.Columns.Contains(colToName))
+                if (dtEmaildata.Columns.Contains(strColVariable))
                 {
-                    bool isvalid = IsValidEmail(dtEmaildata.Rows[0][colToName].ToString());
+                    bool isvalid = IsValidEmail(dtEmaildata.Rows[0][strColVariable].ToString());
                     if (isvalid == false)
                     {
                         lblText.Content = "Not a valid email id";
@@ -379,10 +386,9 @@ namespace beeEmailing
                     }
                     else
                     {
-                        lblText.Content = dtEmaildata.Rows[0][colToName].ToString();
+                        lblText.Content = dtEmaildata.Rows[0][strColVariable].ToString();
                         lblText.Foreground = new SolidColorBrush(Colors.Black);
                     }
-
                 }
                 else
                 {
@@ -403,12 +409,12 @@ namespace beeEmailing
 
         private void cmbCc_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidateValue(cmbCc, lblCc);
+            ValidateValue(cmbCc, lblCc, out ccColumn);
         }
 
         private void cmbBcc_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidateValue(cmbBcc, lblBcc);
+            ValidateValue(cmbBcc, lblBcc, out bccColumn);
         }
 
         private void txtSubject_TextChanged(object sender, TextChangedEventArgs e)
@@ -668,11 +674,52 @@ namespace beeEmailing
                 txtSMTP.Text = "Smtp server is not responding, click here to refresh";
             }
         }
-        public bool IsValidEmail(string emailaddress)
+
+        private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(cmbTo.Text.Trim()))
+                MessageBox.Show("Please select column in To field", "Email Validation");
+
+            if (bwEmailValidation.IsBusy == false)
+            {
+                btnValidate.Content = "Validating...";
+                bwEmailValidation.RunWorkerAsync();
+            }
+        }
+        int toEmailErrors = 0;
+        private void BwEmailValidation_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            toEmailErrors = 0;
+
+            if (dtEmaildata.Rows.Count > 0 && !string.IsNullOrEmpty(toColumn))
+            {
+                if (dtEmaildata.Columns.Contains(toColumn))
+                {
+                    foreach (DataRow dr in dtEmaildata.Rows)
+                    {
+                        if (IsValidEmail(dr[toColumn].ToString()) == false) toEmailErrors++;
+                    }
+                }
+            }
+        }
+
+        private void BwEmailValidation_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+            btnValidate.Content = "Validate all emails";
+            MessageBox.Show("Incorrect email address has identified in To field: " + toEmailErrors.ToString(), "Email Validation");
+        }
+
+
+        public bool IsValidEmail(string emailid)
+        {
+            if (string.IsNullOrEmpty(emailid))
+            {
+                return false;
+            }
+
             try
             {
-                MailAddress m = new MailAddress(emailaddress);
+                MailAddress m = new MailAddress(emailid);
                 return true;
             }
             catch (Exception)
@@ -700,7 +747,6 @@ namespace beeEmailing
             }
             return isOpen;
         }
-
         private void ResetColumn()
         {
             dtEmaildata.Clear();
@@ -710,14 +756,13 @@ namespace beeEmailing
             cmbCc.Items.Clear();
             cmbBcc.Items.Clear();
 
-            cmbTo.Text=string.Empty;
+            cmbTo.Text = string.Empty;
             cmbCc.Text = string.Empty;
             cmbBcc.Text = string.Empty;
 
             txtSubject.Text = string.Empty;
             txtBody.Document.Blocks.Clear();
         }
-
 
 
     }
