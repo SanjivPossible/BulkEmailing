@@ -10,7 +10,7 @@ The biggest magic of bEmailing: SEND MILLIONS OF EMAILS WITHIN SECONDS FROM YOUR
 
 Framework: .NET 5 
 
-OS: Windows 10
+OS: Windows 7+
 
 Dependencies (Open Source)
 

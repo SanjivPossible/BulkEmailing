@@ -11,6 +11,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="fonts\**" />
+	  <EmbeddedResource Remove="fonts\**" />
+	  <None Remove="fonts\**" />
+	  <Page Remove="fonts\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="AppConfig.xml" />
 		<None Remove="Configuration\Smtplist.xml" />
 		<None Remove="Images\attachment.png" />
@@ -64,7 +71,6 @@
 
 	<ItemGroup>
 		<Folder Include="Models\" />
-		<Folder Include="fonts\" />
 	</ItemGroup>
 
 	<ItemGroup>
