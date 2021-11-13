@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:beeEmailing"
+             xmlns:local="clr-namespace:beeEmailing"             
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" x:Name="userControlEmail">
 
     <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="100 0 100 0">
@@ -34,13 +35,13 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Grid.Column="0" Margin="0 0 0 0">
+            <Grid Grid.Row="0" Grid.Column="0" Margin="5 5 0 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition  Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 0 0 10" HorizontalAlignment="Left">
-                    <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" Padding="3" BorderBrush="LightGray" Margin="5 10 0 0" HorizontalAlignment="Left">
+                <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 0 0 0" HorizontalAlignment="Left">
+                    <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" BorderBrush="#4052B5" Margin="0 0 5 0" HorizontalAlignment="Left">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="5"/>
@@ -55,11 +56,11 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                             </Grid.RowDefinitions>
-                            <Image Grid.Column="0" Grid.Row="0" Height="26" Width="26" Source="\Images\import.png" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Select Data</TextBlock>
-                        </Grid>                        
+                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="Table" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0 0 0 2" HorizontalAlignment="Left" VerticalAlignment="Center">Select Data</TextBlock>
+                        </Grid>
                     </Button>
-                    <Button x:Name="btnSendmail" Padding="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="LightGray" Margin="5 10 0 0" Click="btnSendmail_Click">
+                    <Button x:Name="btnSendmail" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="#4052B5" Margin="0 0 0 0" Click="btnSendmail_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="5"/>
@@ -71,15 +72,15 @@
                                 <ColumnDefinition Width="80"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Image Grid.Column="0" Grid.Row="0" Height="26" Width="26" Source="\Images\send.png" HorizontalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
+                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Foreground="#4052B5" Icon="Envelope" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 2" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
                         </Grid>
                     </Button>
                     <TextBlock x:Name="lblETA" Visibility="Hidden" Text="ETA(mm:ss): 00:00" FontSize="13" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
                 </StackPanel>
-                <Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 10 0">
+                <Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -102,39 +103,36 @@
 
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
 
-                        <Border BorderBrush="LightGray" Background="#04AA6D" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
+                        <Border Background="#04AA6D" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
                             <Label ToolTip="Email sent" Content="0" x:Name="txtSuccessStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </Border>
-                        <Border BorderBrush="LightGray" Background="#ff4d4d" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
+                        <Border Background="#ff4d4d" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
                             <Label ToolTip="Failed to send" Content="0" x:Name="txtFailedStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                         </Border>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 10 0">
-                        <Button x:Name="btnExport" Click="btnExport_Click" ToolTip="Export all records" Height="30" Width="35" Padding="1" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 5 0">
+                        <Button x:Name="btnExport" Click="btnExport_Click" ToolTip="Export all records" Height="30" Width="35" Padding="1" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
                                 </Style>
                             </Button.Resources>
-                            <Image Width="24" Height="24" Source="\Images\export.png" />
+                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="Download" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Button>
-                        <Button x:Name="btnNext" Click="btnNext_Click" ToolTip="Draft email" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                        <Button x:Name="btnNext" Click="btnNext_Click" ToolTip="Draft email" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5"/>
                                 </Style>
                             </Button.Resources>
-                            <Image Width="24" Height="24" Source="\Images\nextpage.png" />
+                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="ArrowRight" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Button>
                     </StackPanel>
-
                 </Grid>
-
             </Grid>
 
-
-            <DataGrid Grid.Row="1" Grid.Column="0" Margin="0 00 0 0" Visibility="Hidden" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False">
+            <DataGrid Grid.Row="1" Grid.Column="0" Visibility="Hidden" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="FontWeight" Value="Bold" />
@@ -161,13 +159,13 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Margin="0 12 10 0" Background="White" BorderBrush="LightGray" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+            <Button Grid.Row="0" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Margin="0 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
                     </Style>
                 </Button.Resources>
-                <Image Width="24" Height="24" Source="\Images\prevpage.png" />
+                <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5"  Icon="ArrowLeft" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Button>
 
             <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="0 0 0 0" >
@@ -241,7 +239,7 @@
                     <TabItem IsSelected="True">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Width="24" Source="\Images\code.png" />
+                                <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Code" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <TextBlock Text=" Html Source*" Margin="2,0,0,0" VerticalAlignment="Center" />
                             </StackPanel>
                         </TabItem.Header>
@@ -258,7 +256,7 @@
                     <TabItem>
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Height="24" Width="24" Source="\Images\preview1.png" />
+                                <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Eye" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <TextBlock Text=" Preview" Margin="2,0,0,0" VerticalAlignment="Center" />
                             </StackPanel>
                         </TabItem.Header>

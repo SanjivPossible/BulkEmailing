@@ -105,7 +105,7 @@ namespace beeEmailing
             oucEmail.viewDraftEmail.Height = this.pnlHost.ActualHeight - 20;
 
             oucEmail.viewImportData.Visibility = Visibility.Collapsed;
-            
+
         }
 
         private void btnReleaseNote_Click(object sender, RoutedEventArgs e)
@@ -118,6 +118,34 @@ namespace beeEmailing
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+        private static ImageSource CreateGlyph(string text,
+        FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight,
+        FontStretch fontStretch, Brush foreBrush)
+        {
+            if (fontFamily != null && !String.IsNullOrEmpty(text))
+            {
+                Typeface typeface = new Typeface(fontFamily, fontStyle, fontWeight, fontStretch);
+                GlyphTypeface glyphTypeface;
+                if (!typeface.TryGetGlyphTypeface(out glyphTypeface))
+                    throw new InvalidOperationException("No glyphtypeface found");
+
+                ushort[] glyphIndexes = new ushort[text.Length];
+                double[] advanceWidths = new double[text.Length];
+                for (int n = 0; n < text.Length; n++)
+                {
+                    ushort glyphIndex = glyphTypeface.CharacterToGlyphMap[text[n]];
+                    glyphIndexes[n] = glyphIndex;
+                    double width = glyphTypeface.AdvanceWidths[glyphIndex] * 1.0;
+                    advanceWidths[n] = width;
+                }
+
+                GlyphRun gr = new GlyphRun(glyphTypeface, 0, false, 1.0, glyphIndexes,new Point(0, 0), advanceWidths,null, null, null, null, null, null);
+                GlyphRunDrawing glyphRunDrawing = new GlyphRunDrawing(foreBrush, gr);
+                return new DrawingImage(glyphRunDrawing);
+
+            }
+            return null;
         }
     }
 }

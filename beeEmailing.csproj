@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net6.0-windows7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>mailing.ico</ApplicationIcon>
@@ -64,10 +64,12 @@
 
 	<ItemGroup>
 		<Folder Include="Models\" />
+		<Folder Include="fonts\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="4.5.3.3" />
+		<PackageReference Include="FontAwesome.Sharp" Version="5.15.3" />
 		<PackageReference Include="HtmlAgilityPack" Version="1.11.37" />
 	</ItemGroup>
 
