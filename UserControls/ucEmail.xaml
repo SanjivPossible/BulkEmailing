@@ -155,7 +155,7 @@
         <Grid Grid.Row="3" x:Name="viewDraftEmail" x:FieldModifier="public" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="44" />
-                <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -168,7 +168,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="1" Content="Validate all emails" Click="btnValidate_Click" HorizontalAlignment="Left" x:Name="btnValidate" Height="30" Width="120" Margin="5 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                <Button Grid.Row="0" Grid.Column="1" Content="Validate emails" Click="btnValidate_Click" HorizontalAlignment="Left" x:Name="btnValidate" Height="30" Width="120" Margin="5 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="5"/>

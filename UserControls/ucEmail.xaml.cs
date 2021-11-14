@@ -678,18 +678,24 @@ namespace beeEmailing
         private void btnValidate_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(cmbTo.Text.Trim()))
-                MessageBox.Show("Please select column in To field", "Email Validation");
+            {
+                MessageBox.Show("Please select column in 'To' field", "Email Validation");
+                return;
+            }
 
             if (bwEmailValidation.IsBusy == false)
             {
-                btnValidate.Content = "Validating...";
+                btnValidate.Content = "Scaning...";
                 bwEmailValidation.RunWorkerAsync();
             }
         }
         int toEmailErrors = 0;
+        StringBuilder toSb = new StringBuilder();
         private void BwEmailValidation_DoWork(object? sender, DoWorkEventArgs e)
         {
             toEmailErrors = 0;
+            int rownumber = 0;
+            toSb.Clear();
 
             if (dtEmaildata.Rows.Count > 0 && !string.IsNullOrEmpty(toColumn))
             {
@@ -697,7 +703,13 @@ namespace beeEmailing
                 {
                     foreach (DataRow dr in dtEmaildata.Rows)
                     {
-                        if (IsValidEmail(dr[toColumn].ToString()) == false) toEmailErrors++;
+                        rownumber++;
+                        if (IsValidEmail(dr[toColumn].ToString()) == false)
+                        {
+                            toEmailErrors++;
+                            toSb.Append(rownumber + ",");
+                            if (toEmailErrors > 499) break;
+                        }
                     }
                 }
             }
@@ -705,8 +717,10 @@ namespace beeEmailing
 
         private void BwEmailValidation_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            btnValidate.Content = "Validate all emails";
-            MessageBox.Show("Incorrect email address has identified in To field: " + toEmailErrors.ToString(), "Email Validation");
+            btnValidate.Content = "Validate emails";
+            string fplus = (toEmailErrors >= 500 ? "+" : string.Empty);
+            if (toSb.Length > 0) toSb.Remove(toSb.Length - 1, 1);
+            MessageBox.Show("Incorrect email address has been identified in To field:\nNumber of errors: " + toEmailErrors.ToString() + fplus + "\nRow number of each error: " + toSb.ToString(), "Email Validation");
         }
 
 
