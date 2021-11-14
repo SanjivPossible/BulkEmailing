@@ -6,19 +6,22 @@ With beeEmailing you can: select recipients (email addresses) and neccessary inf
 
 The biggest magic of beeEmailing: SEND MILLIONS OF EMAILS WITHIN SECONDS FROM YOUR LOCAL SYSTEM!
 
-# Getting Started
+# Getting Started for run the project
 
-Framework: .NET 5 
-
+Framework: .NET 6 
 OS: Windows 7+
+VS: Community Version
 
 Dependencies (Open Source)
-
 EPPlus 4.5.3.3
-
 HtlpAgilityPack 1.11.37
 
 Installing the dependencies either by restoring or adding from NuGet packages. 
+
+# Getting Started for run the application
+
+OS: Windows 7+
+Framework: .NET runtime (https://dotnet.microsoft.com/download/dotnet/6.0)
 
 # Contributing Guidelines
 Contributions are always welcome! If you'd like to collaborate with us, take into account that:
