@@ -132,19 +132,19 @@
                 </Grid>
             </Grid>
 
-            <DataGrid Grid.Row="1" Grid.Column="0" Visibility="Hidden" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False">
+            <DataGrid Grid.Row="1" Grid.Column="0" Visibility="Hidden" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False" SelectionUnit="FullRow"  SelectionMode="Single">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="FontWeight" Value="Bold" />
                         <Setter Property="FontSize" Value="11" />
-                        <Setter Property="Background" Value="#e6e6e6"/>
+                        <Setter Property="Background" Value="WhiteSmoke"/>
                         <Setter Property="Padding" Value="4"/>
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.RowHeaderStyle>
                     <Style TargetType="{x:Type DataGridRowHeader}">
                         <Setter Property="Content" Value="{Binding Row_Id}"/>
-                        <Setter Property="Background" Value="#e6e6e6"/>
+                        <Setter Property="Background" Value="WhiteSmoke"/>
                         <Setter Property="Padding" Value="10,0,10,0"/>
                     </Style>
                 </DataGrid.RowHeaderStyle>
