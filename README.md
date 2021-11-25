@@ -6,14 +6,11 @@ With beeEmailing you can: select recipients (email addresses) and neccessary inf
 
 The biggest magic of beeEmailing: SEND MILLIONS OF EMAILS WITHIN SECONDS FROM YOUR LOCAL SYSTEM!
 
-# Getting Started to run the project
+# Development requirements
 
-Framework: .NET 6
+Visual Studio 2019 (16.6) or 2022 (17.0) (you can it the from https://visualstudio.microsoft.com/downloads/)
 
-OS: Windows 7+
-
-VS: Community Version
-
+.NET core SDK 6.0 or later (you can it from https://dotnet.microsoft.com/download/dotnet/6.0)
 
 Dependencies (Open Source)
 
@@ -23,16 +20,8 @@ HtlpAgilityPack 1.11.37
 
 Installing the dependencies either by restoring or adding from NuGet packages. 
 
-# Getting Started to run the application
-
-OS: Windows 7+
-
-Framework: .NET runtime (https://dotnet.microsoft.com/download/dotnet/6.0)
-
 # Contributing Guidelines
-Contributions are always welcome! If you'd like to collaborate with us, take into account that:
-
-We use Visual Studio 2022 (community version).
+Contributions are always welcome! If you'd like to collaborate with us, please consider development requirements.
 
 Feel free to <a href="mailto:sanjiv.possible@gmail.com">contact us</a> if you have any question
 
