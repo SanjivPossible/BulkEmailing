@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.IO;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Sockets;
 using System.Reflection;
@@ -459,18 +460,46 @@ namespace beeEmailing
                 {
                     foreach (HtmlNode img in imgs)
                     {
-                        HtmlAttribute src = img.Attributes[@"src"];
-                        string filename = src.Value;
-                        if (File.Exists(filename))
+                        try
                         {
-                            var imgText = ImageToText(filename);
-                            src.Value = imgText;
+                            HtmlAttribute src = img.Attributes[@"src"];
+                            string filename = src.Value;
+                            if (filename.StartsWith("http"))
+                            {
+                                string fname = DownloadImageByURL(filename);
+                                var imgText = ImageToText(fname);
+                                src.Value = imgText;
+                            }
+                            else if (File.Exists(filename))
+                            {
+                                var imgText = ImageToText(filename);
+                                src.Value = imgText;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
                         }
                     }
                 }
 
                 wbPreview.NavigateToString(doc.DocumentNode.OuterHtml);
             }
+        }
+        public string DownloadImageByURL(string url)
+        {
+            Uri uri = new Uri(url);
+            string filename = string.Empty;
+            filename = System.IO.Path.GetFileName(uri.LocalPath);
+
+            string fullfilepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\TempImages\\" + filename;
+
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(url, fullfilepath);
+            }
+
+            return fullfilepath;
         }
 
         public void ReadConfig()
