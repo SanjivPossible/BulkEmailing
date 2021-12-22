@@ -424,7 +424,8 @@ namespace beeEmailing
             string SubColumn = txtSubject.Text;
             foreach (DataColumn clm in dtEmaildata.Columns)
             {
-                SubColumn = SubColumn.Replace("{" + clm.ColumnName + "}", dtEmaildata.Rows[0][clm.ColumnName].ToString());
+                if (dtEmaildata.Rows.Count > 0)
+                    SubColumn = SubColumn.Replace("{" + clm.ColumnName + "}", dtEmaildata.Rows[0][clm.ColumnName].ToString());
             }
             lblSubject.Content = SubColumn;
 
@@ -618,6 +619,11 @@ namespace beeEmailing
             TimeSpan time = TimeSpan.FromSeconds(etaMin);
             string str = time.ToString(@"mm\:ss");
             lblETA.Text = "ETA (mm:ss): " + str;
+
+            int failedCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Failed'").Length;
+            int successCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Success'").Length;
+            txtFailedStatus.Content = failedCount.ToString();
+            txtSuccessStatus.Content = successCount.ToString();
         }
         private void BwSending_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
@@ -627,10 +633,7 @@ namespace beeEmailing
             counter = 0;
             IsSendingEmail = false;
 
-            int failedCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Failed'").Length;
-            int successCount = dtEmaildata.Select(COL_EMAILSTATUS + " = 'Success'").Length;
-            txtFailedStatus.Content = failedCount.ToString();
-            txtSuccessStatus.Content = successCount.ToString();
+
         }
 
         private void LogEmail(mEmailPreview mpreview, bool isSend)
