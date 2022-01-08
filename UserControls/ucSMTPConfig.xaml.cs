@@ -80,7 +80,7 @@ namespace beeEmailing
                 dsConfig.ReadXml(filename);
 
 
-                if (string.IsNullOrEmpty(txtFromEmail.Text) && string.IsNullOrEmpty(txtFromTitle.Text) && string.IsNullOrEmpty(txtSmtpHost.Text) && string.IsNullOrEmpty(txtSmtpPort.Text))
+                if (string.IsNullOrEmpty(txtFromEmail.Text) || string.IsNullOrEmpty(txtFromTitle.Text) || string.IsNullOrEmpty(txtSmtpHost.Text) || string.IsNullOrEmpty(txtSmtpPort.Text))
                 {
                     MessageBox.Show("All field is mandatory to fill", "Validation");
                     return;
