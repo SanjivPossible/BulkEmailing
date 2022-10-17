@@ -1,11 +1,16 @@
 ﻿
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
+using Attachment = System.Net.Mail.Attachment;
 
 namespace beeEmailing
 {
@@ -13,7 +18,7 @@ namespace beeEmailing
     {
 
 
-        public bool SendEmail(string emailTo, string emailCC, string emailBCC, FileInfo attachment, string msgSubject, string msgBody)
+        public bool SendEmailBySMTP(string emailTo, string emailCC, string emailBCC, FileInfo attachment, string msgSubject, string msgBody)
         {
             bool IsSend = false;
             string smtpserver = mEmailConfig.smtphost;
@@ -120,7 +125,7 @@ namespace beeEmailing
                                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                                 smtpClient.Credentials = new System.Net.NetworkCredential(mEmailConfig.smtpusername, mEmailConfig.smtppassword);
                             }
-                            smtpClient.Send(mail);
+                          smtpClient.Send(mail);
                         }
                         IsSend = true;
                     }
@@ -250,5 +255,111 @@ namespace beeEmailing
         //    return IsSend;
         //}
 
+        public async Task<bool> SendEmailBySG(string emailTo, string emailCC, string emailBCC, FileInfo attachment, string msgSubject, string msgBody)
+        {
+            bool IsSend = false;
+            string smtpserver = mEmailConfig.smtphost;
+            int smptport = Convert.ToInt32(mEmailConfig.smtpport);
+
+            string FromAddress = mEmailConfig.emailfrom;
+            string FromAddressTitle = mEmailConfig.emailtitle;
+
+            var tos = new List<EmailAddress>();
+            try
+            {
+                if (!string.IsNullOrEmpty(emailTo))
+                {
+
+                    #region<<Mail to TO>>
+                    if (emailTo.Contains(";"))
+                    {
+                        string[] ToId = emailTo.Split(';');
+
+                        foreach (string ToEmail in ToId)
+                        {
+                            if (!string.IsNullOrEmpty(ToEmail) && !ToEmail.Equals("&nbsp;"))
+                            {
+                                tos.Add(new EmailAddress(ToEmail));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        tos.Add(new EmailAddress(emailTo));
+                    }
+                    #endregion
+
+                    #region<<Mail to CC>>
+                    if (!string.IsNullOrEmpty(emailCC))
+                    {
+                        if (emailCC.Contains(';'))
+                        {
+                            string[] CCId = emailCC.Split(';');
+
+                            foreach (string CCEmail in CCId)
+                            {
+                                if (!string.IsNullOrEmpty(CCEmail) && !CCEmail.Equals("&nbsp;"))
+                                {
+                                    tos.Add(new EmailAddress(CCEmail));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tos.Add(new EmailAddress(emailCC));
+                        }
+                    }
+                    #endregion
+
+                    #region<<Mail to BCC>>
+                    if (!string.IsNullOrEmpty(emailBCC))
+                    {
+                        if (emailBCC.Contains(';'))
+                        {
+                            string[] BCCId = emailBCC.Split(';');
+
+                            foreach (string BCCEmail in BCCId)
+                            {
+                                if (!string.IsNullOrEmpty(BCCEmail) && !BCCEmail.Equals("&nbsp;"))
+                                {
+                                    tos.Add(new EmailAddress(BCCEmail));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tos.Add(new EmailAddress(emailBCC));
+                        }
+                    }
+                    #endregion
+
+                    if (msgSubject.Length > 254) msgSubject = msgSubject.Substring(0, 254);
+                    var Subject = msgSubject.Trim().Replace('\r', ' ').Replace('\n', ' ');
+
+                    var apiKey = smtpserver;
+                    var client = new SendGridClient(apiKey);
+                    var message = new SendGridMessage()
+                    {
+                        From = new EmailAddress(FromAddress, FromAddressTitle),
+                        Subject = Subject,
+                        HtmlContent = msgBody
+                    };
+                    message.AddTos(tos);
+                    var response = await client.SendEmailAsync(message);
+                    if (response.IsSuccessStatusCode)
+                        IsSend = true;
+                    else
+                        IsSend = false;
+
+                }
+
+                return IsSend;
+            }
+            catch (Exception ex)
+            {
+                return IsSend;
+            }
+
+        }
     }
 }

@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
 	<smtpconfig>
-		<emailfrom></emailfrom>
-		<emailtitle></emailtitle>
+		<emailfrom>cias.prod@capita.co.uk</emailfrom>
+		<emailtitle>Season's Greeting</emailtitle>
+		<emailsource>SendGrid</emailsource>
 		<smtphost></smtphost>
 		<smtpport></smtpport>
 		<smtpencryption>None</smtpencryption>
 		<smtpauth>DefaultAuth</smtpauth>
 		<smtpusername></smtpusername>
 		<smtppassword></smtppassword>
+		<sendgridemailid></sendgridemailid>
+		<sendgridkey></sendgridkey>
 	</smtpconfig>
 </config>

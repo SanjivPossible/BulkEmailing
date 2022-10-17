@@ -594,11 +594,16 @@ namespace beeEmailing
                 errorLogger.Log(ex);
             }
         }
-        private void UpdateTable(object mObject)
+        private async void UpdateTable(object mObject)
         {
             var tModel = mObject as mEmailSchema;
             mEmailPreview mpreview = tModel.EmailData;
-            bool isSend = oEmail.SendEmail(mpreview.To, mpreview.CC, mpreview.BCC, EmailAttachment, mpreview.Subject, mpreview.Body);
+            bool isSend = false;
+            if (mEmailConfig.emailsource.Equals("SendGrid", StringComparison.OrdinalIgnoreCase))
+                isSend = oEmail.SendEmailBySG(mpreview.To, mpreview.CC, mpreview.BCC, EmailAttachment, mpreview.Subject, mpreview.Body).Result;
+            else
+                isSend = oEmail.SendEmailBySMTP(mpreview.To, mpreview.CC, mpreview.BCC, EmailAttachment, mpreview.Subject, mpreview.Body);
+
             Interlocked.Increment(ref counter);
 
             lock (dtEmaildata)

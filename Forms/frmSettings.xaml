@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:beeEmailing"
         mc:Ignorable="d"
-        Title="SMTP Configuration" Height="480" Width="900" WindowStartupLocation="CenterScreen">
+        Title="SMTP Configuration" Height="620" Width="900" WindowStartupLocation="CenterScreen">
     <Grid>
         <local:ucSMTPConfig/>
     </Grid>

@@ -41,6 +41,19 @@ namespace beeEmailing
             txtPassword.Password = smptconfig.Rows[0]["smtppassword"].ToString();
             string encryption = smptconfig.Rows[0]["smtpencryption"].ToString();
 
+            if (smptconfig.Rows[0]["emailsource"].ToString().Equals(string.Empty))
+            {
+                cmbEmailSource.SelectedIndex = 0;
+
+            }
+            else
+            {
+                cmbEmailSource.Text = smptconfig.Rows[0]["emailsource"].ToString();
+            }
+
+            txtSGEmailId.Text = smptconfig.Rows[0]["sendgridemailid"].ToString();
+            txtSGKey.Text = smptconfig.Rows[0]["sendgridkey"].ToString();
+
 
             if (encryption.Equals("Ssl", StringComparison.OrdinalIgnoreCase))
             {
@@ -64,13 +77,17 @@ namespace beeEmailing
                 txtUserName.IsEnabled = true;
                 txtPassword.IsEnabled = true;
             }
-
+            SetEmailSource();
             rbSsl.Checked += rbEncrypt_CheckedChanged;
             rbNone.Checked += rbEncrypt_CheckedChanged;
 
             DefaultAuth.Checked += rbAuth_CheckedChanged;
             UsernameAuth.Checked += rbAuth_CheckedChanged;
+            cmbEmailSource.SelectionChanged += cmbEmailSource_SelectionChanged;
         }
+
+
+
         private void btnSaveConfig_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -78,12 +95,34 @@ namespace beeEmailing
                 DataSet dsConfig = new DataSet();
                 string filename = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Configuration\\AppConfig.xml";
                 dsConfig.ReadXml(filename);
+                int port = 0;
 
-
-                if (string.IsNullOrEmpty(txtFromEmail.Text) || string.IsNullOrEmpty(txtFromTitle.Text) || string.IsNullOrEmpty(txtSmtpHost.Text) || string.IsNullOrEmpty(txtSmtpPort.Text))
+                if (string.IsNullOrEmpty(txtFromEmail.Text) || string.IsNullOrEmpty(txtFromTitle.Text))
                 {
                     MessageBox.Show("All field is mandatory to fill", "Validation");
                     return;
+                }
+                if (cmbEmailSource.SelectedIndex == 1)
+                {
+                    if (string.IsNullOrEmpty(txtSGEmailId.Text) || string.IsNullOrEmpty(txtSGKey.Text))
+                    {
+                        MessageBox.Show("All field is mandatory to fill", "Validation");
+                        return;
+                    }
+                }
+                if (cmbEmailSource.SelectedIndex == 0)
+                {
+
+                    if (Int32.TryParse(txtSmtpPort.Text, out port) == false)
+                    {
+                        MessageBox.Show("Please enter SMTP Port in numeric", "Validation");
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(txtSmtpHost.Text))
+                    {
+                        MessageBox.Show("All field is mandatory to fill", "Validation");
+                        return;
+                    }
                 }
                 if (UsernameAuth.IsChecked == true)
                 {
@@ -94,38 +133,37 @@ namespace beeEmailing
                     }
                 }
 
-                int port = 0;
-                if (Int32.TryParse(txtSmtpPort.Text, out port) == false)
-                {
-                    MessageBox.Show("Please enter SMTP Port in numeric", "Validation");
-                    return;
-                }
-
                 dsConfig.Tables["smtpconfig"].Rows[0]["emailfrom"] = txtFromEmail.Text;
                 dsConfig.Tables["smtpconfig"].Rows[0]["emailtitle"] = txtFromTitle.Text;
+                dsConfig.Tables["smtpconfig"].Rows[0]["emailsource"] = cmbEmailSource.Text;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtphost"] = txtSmtpHost.Text;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpport"] = port.ToString();
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpencryption"] = selectedEncryptrb.Content;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpauth"] = selectedAuthrb.Name;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtpusername"] = txtUserName.Text;
                 dsConfig.Tables["smtpconfig"].Rows[0]["smtppassword"] = txtPassword.Password;
+                dsConfig.Tables["smtpconfig"].Rows[0]["sendgridemailid"] = txtSGEmailId.Text;
+                dsConfig.Tables["smtpconfig"].Rows[0]["sendgridkey"] = txtSGKey.Text;
 
                 dsConfig.WriteXml(filename);
 
                 mEmailConfig.emailfrom = txtFromEmail.Text;
                 mEmailConfig.emailtitle = txtFromTitle.Text;
+                mEmailConfig.emailsource = cmbEmailSource.Text;
                 mEmailConfig.smtphost = txtSmtpHost.Text;
                 mEmailConfig.smtpport = txtSmtpPort.Text;
                 mEmailConfig.smtpencryption = selectedEncryptrb.Content.ToString();
                 mEmailConfig.smtpauth = selectedAuthrb.Name;
                 mEmailConfig.smtpusername = txtUserName.Text;
                 mEmailConfig.smtppassword = txtPassword.Password;
+                mEmailConfig.sendgridemailid = txtSGEmailId.Text;
+                mEmailConfig.sendgridkey = txtSGKey.Text;
 
-                var isOpen = CheckSMTPConnection(txtSmtpHost.Text, port);
-                if (isOpen == false)
-                {
-                    MessageBox.Show("The selected SMTP Server is not responding on the port from this machine, might not able to send the email, please revalidate SMTP Server and Port.", "Validation Warning!");
-                }
+                //var isOpen = CheckSMTPConnection(txtSmtpHost.Text, port);
+                //if (isOpen == false)
+                //{
+                //    MessageBox.Show("The selected SMTP Server is not responding on the port from this machine, might not able to send the email, please revalidate SMTP Server and Port.", "Validation Warning!");
+                //}
 
                 MessageBox.Show("Success: Data has been updated", "Validation");
             }
@@ -239,6 +277,29 @@ namespace beeEmailing
         {
             Window parent = Window.GetWindow(this);
             parent.Close();
+        }
+
+        private void cmbEmailSource_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SetEmailSource();
+        }
+
+        private void SetEmailSource()
+        {
+            if (cmbEmailSource.SelectedIndex == 0)
+            {
+                gbsmtpep.Visibility = Visibility.Visible;
+                gbsmtpen.Visibility = Visibility.Visible;
+                gbsmtpau.Visibility = Visibility.Visible;
+                gbsgco.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                gbsmtpep.Visibility = Visibility.Collapsed;
+                gbsmtpen.Visibility = Visibility.Collapsed;
+                gbsmtpau.Visibility = Visibility.Collapsed;
+                gbsgco.Visibility = Visibility.Visible;
+            }
         }
     }
 }

@@ -15,6 +15,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Grid.Column="0" Width="500" MaxHeight="100" Margin="0 0 0 0">
@@ -38,34 +40,11 @@
                 <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtFromTitle" Width="200" Height="22" Margin="10 0 0 10" />
             </Grid>
         </GroupBox>
-
-        <GroupBox Grid.Row="1" Grid.Column="0"  Width="500" MaxHeight="100" Margin="0 0 0 0">
+        <GroupBox Grid.Row="1" Grid.Column="0" Width="500" MaxHeight="100" Margin="0 0 0 0">
             <GroupBox.Header>
-                <Label Content="SMTP Endpoint"></Label>
+                <Label Content="Select Email Source:"></Label>
             </GroupBox.Header>
-            <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="SMTP Server*" Grid.Row="0" Grid.Column="0" Margin="5 0 0 0" />
-                <!--<TextBox Name="txtSmtpHost" Width="200" Grid.Row="1" Grid.Column="0" Height="20" Margin="10 0 0 10"/>-->
-                <ComboBox Name="txtSmtpHost" Width="200" Grid.Row="1" Grid.Column="0" Height="22" Margin="10 0 0 10" IsEditable="True" TextBoxBase.TextChanged="txtSmtpHost_TextChanged" />
-
-                <Label Content="SMTP Port*" Grid.Row="0" Grid.Column="1" Margin="5 0 0 0"/>
-                <TextBox x:Name="txtSmtpPort" Width="200" Grid.Row="1" Grid.Column="1" Height="22" Margin="10 0 0 10" />
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Row="2" Grid.Column="0"  Width="500" Height="70" Margin="0 0 0 0">
-            <GroupBox.Header>
-                <Label Content="SMTP Encryption"></Label>
-            </GroupBox.Header>
-            <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -74,38 +53,112 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <RadioButton x:Name="rbNone"  Content="None" Grid.Row="0" Grid.Column="0" Margin="10 0 0 10"/>
-                <RadioButton x:Name="rbSsl" Content="Ssl" Grid.Row="0" Grid.Column="1" Margin="10 0 0 10"/>
-            </Grid>
-        </GroupBox>
-        <GroupBox Grid.Row="3" Grid.Column="0"  Width="500" MaxHeight="150" Margin="0 0 0 0">
-            <GroupBox.Header>
-                <Label Content="SMTP Authentication"></Label>
-            </GroupBox.Header>
-
-            <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <RadioButton x:Name="DefaultAuth" Content="None" Grid.Row="0" Grid.Column="0" Margin="10 0 0 0"/>
-                <RadioButton x:Name="UsernameAuth" Content="Credential" Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" />
-
-                <Label Content="User Name" Grid.Row="1" Grid.Column="0" Margin="5 0 0 0" />
-                <TextBox x:Name="txtUserName" Width="200" Grid.Row="2" Grid.Column="0" Height="22" Margin="10 0 0 10" IsEnabled="False"/>
-
-                <Label Content="Password" Grid.Row="1" Grid.Column="1" Margin="5 0 0 0"/>
-                <PasswordBox PasswordChar="*" x:Name="txtPassword" Width="200" Grid.Row="2" Grid.Column="1" Height="22" Margin="10 0 0 10" IsEnabled="False"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Send Email with:"  Margin="5 0 0 0" />
+                <ComboBox Grid.Row="0" Grid.Column="0" x:Name="cmbEmailSource" Width="200" Height="22" Margin="10 0 0 10">
+                    <ComboBoxItem IsSelected="True">SMTP</ComboBoxItem>
+                    <ComboBoxItem>SendGrid</ComboBoxItem>
+                </ComboBox>
 
             </Grid>
-
         </GroupBox>
+
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical"  HorizontalAlignment="Right" Margin="0 10 2 0">
+
+
+            <GroupBox Grid.Row="2" Grid.Column="0"  Width="500" MaxHeight="100" Margin="0 0 0 0" x:Name="gbsmtpep">
+                <GroupBox.Header>
+                    <Label Content="SMTP Endpoint"></Label>
+                </GroupBox.Header>
+                <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="SMTP Server*" Grid.Row="0" Grid.Column="0" Margin="5 0 0 0" />
+                    <ComboBox Name="txtSmtpHost" Width="200" Grid.Row="1" Grid.Column="0" Height="22" Margin="10 0 0 10" IsEditable="True" TextBoxBase.TextChanged="txtSmtpHost_TextChanged" />
+
+                    <Label Content="SMTP Port*" Grid.Row="0" Grid.Column="1" Margin="5 0 0 0"/>
+                    <TextBox x:Name="txtSmtpPort" Width="200" Grid.Row="1" Grid.Column="1" Height="22" Margin="10 0 0 10" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="3" Grid.Column="0"  Width="500" Height="70" Margin="0 0 0 0" x:Name="gbsmtpen">
+                <GroupBox.Header>
+                    <Label Content="SMTP Encryption"></Label>
+                </GroupBox.Header>
+                <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton x:Name="rbNone"  Content="None" Grid.Row="0" Grid.Column="0" Margin="10 0 0 10"/>
+                    <RadioButton x:Name="rbSsl" Content="Ssl" Grid.Row="0" Grid.Column="1" Margin="10 0 0 10"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="4" Grid.Column="0"  Width="500" MaxHeight="150" Margin="0 0 0 0" x:Name="gbsmtpau">
+                <GroupBox.Header>
+                    <Label Content="SMTP Authentication"></Label>
+                </GroupBox.Header>
+
+                <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <RadioButton x:Name="DefaultAuth" Content="None" Grid.Row="0" Grid.Column="0" Margin="10 0 0 0"/>
+                    <RadioButton x:Name="UsernameAuth" Content="Credential" Grid.Row="0" Grid.Column="1" Margin="10 0 0 0" />
+
+                    <Label Content="User Name" Grid.Row="1" Grid.Column="0" Margin="5 0 0 0" />
+                    <TextBox x:Name="txtUserName" Width="200" Grid.Row="2" Grid.Column="0" Height="22" Margin="10 0 0 10" IsEnabled="False"/>
+
+                    <Label Content="Password" Grid.Row="1" Grid.Column="1" Margin="5 0 0 0"/>
+                    <PasswordBox PasswordChar="*" x:Name="txtPassword" Width="200" Grid.Row="2" Grid.Column="1" Height="22" Margin="10 0 0 10" IsEnabled="False"/>
+
+                </Grid>
+
+            </GroupBox>
+
+
+            <GroupBox Grid.Row="5" Grid.Column="0"  Width="500" MaxHeight="150" Margin="0 0 0 0" x:Name="gbsgco">
+                <GroupBox.Header>
+                    <Label Content="SendGrid Configuration"></Label>
+                </GroupBox.Header>
+
+                <Grid Grid.Row="0" Column="0" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="SendGrid EmailId"  Margin="5 0 0 0"/>
+                    <TextBox Grid.Row="1" Grid.Column="0" x:Name="txtSGEmailId" Width="200"  Height="22" Margin="10 0 0 10"/>
+
+                    <Label Grid.Row="0" Grid.Column="1" Content="SendGrid Key"  Margin="5 0 0 0" />
+                    <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtSGKey" Width="200"  Height="22" Margin="10 0 0 10" />
+
+
+                </Grid>
+
+            </GroupBox>
+        </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal"  HorizontalAlignment="Right" Margin="0 10 2 0">
             <Button Name="btnClose" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Content="Close" Width="100" Height="30" BorderBrush="LightGray" Click="btnClose_Click">
