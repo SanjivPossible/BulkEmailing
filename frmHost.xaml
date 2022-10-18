@@ -14,10 +14,10 @@
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Email" KeyTip="E" >
-                <RibbonGroup x:Name="EmailData">
-                    <RibbonButton x:Name="btnImportData" LargeImageSource="{fa:IconSource MailBulk, Foreground=#183153}"  Label="Send Email" KeyTip="I" Click="btnImportData_Click"/>
-                    <RibbonButton x:Name="btnDraftEmail" LargeImageSource="{fa:IconSource Edit, Foreground=#183153}" Label="Draft Email" KeyTip="D" Click="btnDraftEmail_Click" />
-                </RibbonGroup>
+                <!--<RibbonGroup x:Name="EmailData">
+                    --><!--<RibbonButton x:Name="btnImportData" LargeImageSource="{fa:IconSource MailBulk, Foreground=#183153}"  Label="Send Email" KeyTip="I" Click="btnImportData_Click"/>-->
+                    <!--<RibbonButton x:Name="btnDraftEmail" LargeImageSource="{fa:IconSource Edit, Foreground=#183153}" Label="Draft Email" KeyTip="D" Click="btnDraftEmail_Click" />--><!--
+                </RibbonGroup>-->
                 <RibbonGroup x:Name="Settings">
                     <RibbonButton LargeImageSource="{fa:IconSource Cog, Foreground=#183153}" Label="SMTP Settings" KeyTip="S" Name="SmtpConfig" Click="SmtpConfig_Click" />
                 </RibbonGroup>
@@ -37,7 +37,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ContentControl Grid.Row="0" x:Name="ContentArea" />
+            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <ContentControl Grid.Row="0" x:Name="ContentArea"  />
+            </ScrollViewer>
         </Grid>
     </DockPanel>
 

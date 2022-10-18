@@ -36,6 +36,7 @@ namespace beeEmailing
 
         DateTime dtStartTimer = DateTime.Now;
         FileInfo EmailAttachment = null;
+        string attachmentFullName = string.Empty;
 
         Excel oExcel = new Excel();
         Email oEmail = new Email();
@@ -135,11 +136,14 @@ namespace beeEmailing
                             dtEmaildata.Load(dr);
                         }
                         if (dtEmaildata.Columns.Count > 0) dtEmaildata.Columns.Add(COL_EMAILSTATUS).SetOrdinal(1);
-                        FillComboBox(dtEmaildata);
 
+                        FillComboBox(dtEmaildata);
                         dgvEmailData.ItemsSource = dtEmaildata.DefaultView;
                         dgvEmailData.Columns[0].Visibility = Visibility.Hidden;
-                        dgvEmailData.Visibility = Visibility.Visible;
+                       
+                        dgvSendData.ItemsSource = dtEmaildata.DefaultView;
+                        //dgvSendData.Columns[0].Visibility = Visibility.Hidden;
+                        
                         pbStatus.Value = 0;
                         tableRowCount = dtEmaildata.Rows.Count;
                         txtSuccessStatus.Content = "0";
@@ -512,16 +516,17 @@ namespace beeEmailing
                 dsConfig.ReadXml(filename);
                 DataTable smptconfig = dsConfig.Tables["smtpconfig"];
 
-                //txtFrom.Text = smptconfig.Rows[0]["emailtitle"].ToString() + " : " + smptconfig.Rows[0]["emailfrom"].ToString();
-
                 mEmailConfig.emailfrom = smptconfig.Rows[0]["emailfrom"].ToString();
                 mEmailConfig.emailtitle = smptconfig.Rows[0]["emailtitle"].ToString();
+                mEmailConfig.emailsource = smptconfig.Rows[0]["emailsource"].ToString();
                 mEmailConfig.smtphost = smptconfig.Rows[0]["smtphost"].ToString();
                 mEmailConfig.smtpport = smptconfig.Rows[0]["smtpport"].ToString();
                 mEmailConfig.smtpencryption = smptconfig.Rows[0]["smtpencryption"].ToString();
                 mEmailConfig.smtpauth = smptconfig.Rows[0]["smtpauth"].ToString();
                 mEmailConfig.smtpusername = smptconfig.Rows[0]["smtpusername"].ToString();
                 mEmailConfig.smtppassword = smptconfig.Rows[0]["smtppassword"].ToString();
+                mEmailConfig.sendgridemailid = smptconfig.Rows[0]["sendgridemailid"].ToString();
+                mEmailConfig.sendgridkey = smptconfig.Rows[0]["sendgridkey"].ToString();
 
             }
             catch (Exception ex)
@@ -681,7 +686,7 @@ namespace beeEmailing
         {
             if (bwSmtpValidation.IsBusy == false)
             {
-                txtSMTP.Text = "Refreshing...";
+                //txtSMTP.Text = "Refreshing...";
                 bwSmtpValidation.RunWorkerAsync();
             }
         }
@@ -701,15 +706,15 @@ namespace beeEmailing
         }
         private void BwSmtpValidation_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
-            if (IsSmtpOpen)
-            {
-                gdSMTP.Height = 0;
-            }
-            else
-            {
-                gdSMTP.Height = 20;
-                txtSMTP.Text = "Smtp server is not responding, click here to refresh";
-            }
+            //if (IsSmtpOpen)
+            //{
+            //    gdSMTP.Height = 0;
+            //}
+            //else
+            //{
+            //    gdSMTP.Height = 20;
+            //    txtSMTP.Text = "Smtp server is not responding, click here to refresh";
+            //}
         }
 
         private void btnValidate_Click(object sender, RoutedEventArgs e)
@@ -801,7 +806,8 @@ namespace beeEmailing
         private void ResetColumn()
         {
             dtEmaildata.Clear();
-            dgvEmailData.ItemsSource = null;
+            dgvEmailData.ItemsSource = null;          
+            dgvSendData.ItemsSource = null;
 
             cmbTo.Items.Clear();
             cmbCc.Items.Clear();
@@ -814,7 +820,5 @@ namespace beeEmailing
             txtSubject.Text = string.Empty;
             txtBody.Document.Blocks.Clear();
         }
-
-
     }
 }

@@ -13,276 +13,347 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" x:Name="gdSMTP" Grid.Column="0" Margin="0 0 0 0" HorizontalAlignment="Stretch" Background="#ff4d4d" Height="0" >
-            <TextBlock x:Name="txtSMTP" Text="Smtp server is not responding, click here to refresh" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" MouseLeftButtonUp="TextBlock_MouseLeftButtonUp" />
-        </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 0 0">
-            <ProgressBar Foreground="#0072E5" Background="#eaf2fb" x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock x:Name="lblPbStatus" Visibility="Hidden" Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Row="2" x:Name="viewImportData" x:FieldModifier="public" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="White">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Grid.Column="0" Margin="5 5 0 5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition  Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 0 0 0" HorizontalAlignment="Left">
-                    <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" BorderBrush="#4052B5" Margin="0 0 5 0" HorizontalAlignment="Left">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-
-                        <Grid HorizontalAlignment="Left">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="80"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="Table" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Margin="0 0 0 2" HorizontalAlignment="Left" VerticalAlignment="Center">Select Data</TextBlock>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="btnSendmail" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="#4052B5" Margin="0 0 0 0" Click="btnSendmail_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        <Grid HorizontalAlignment="Left">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
-                                <ColumnDefinition Width="80"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Foreground="#4052B5" Icon="Envelope" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 2" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
-                        </Grid>
-                    </Button>
-                    <TextBlock x:Name="lblETA" Visibility="Hidden" Text="ETA(mm:ss): 00:00" FontSize="13" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
-                </StackPanel>
-                <Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 0 0">
+        <Expander Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Background="White" >
+            <Expander.Header>
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Image Width="15" Source="images\icon.jpg"/>
+                    </BulletDecorator.Bullet>
+                    <Label VerticalContentAlignment="Center" Height="30">Data Source</Label>
+                </BulletDecorator>
+            </Expander.Header>
+            <Expander.Content>
+                <Grid x:Name="viewImportData" x:FieldModifier="public" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="White">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" /> <!--*-->
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="5 5 0 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition  Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 0 0 0" HorizontalAlignment="Left">
+                            <Button x:Name="btnImport" Click="btnImport_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Width="120" BorderBrush="#4052B5" Margin="0 0 5 0" HorizontalAlignment="Left">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="Table" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Margin="0 0 0 2" HorizontalAlignment="Left" VerticalAlignment="Center">Select Data</TextBlock>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid Grid.Row="1" Grid.Column="0" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False" SelectionUnit="FullRow"  SelectionMode="Single">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="FontSize" Value="11" />
+                                <Setter Property="Background" Value="WhiteSmoke"/>
+                                <Setter Property="Padding" Value="4"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="{x:Type DataGridRowHeader}">
+                                <Setter Property="Content" Value="{Binding Row_Id}"/>
+                                <Setter Property="Background" Value="WhiteSmoke"/>
+                                <Setter Property="Padding" Value="10,0,10,0"/>
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+                    </DataGrid>
+
+                </Grid>
+
+            </Expander.Content>
+        </Expander>
+
+        <Expander Grid.Row="1" Grid.Column="0" Margin="0 0 0 0" Background="White">
+            <Expander.Header>
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Image Width="15" Source="images\icon.jpg"/>
+                    </BulletDecorator.Bullet>
+                    <Label VerticalContentAlignment="Center" Height="30">Draft Email</Label>
+                </BulletDecorator>
+            </Expander.Header>
+            <Expander.Content>
+
+                <Grid x:Name="viewDraftEmail" x:FieldModifier="public" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="44" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>                        
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch"  Margin="0 7 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="1" Content="Validate emails" Click="btnValidate_Click" HorizontalAlignment="Left" x:Name="btnValidate" Height="30" Width="120" Margin="5 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <!--<Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Margin="0 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <fa:IconImage Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5"  Icon="ArrowLeft" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Button>-->
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="0 0 0 0" >
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" >To*:</Label>
+                        <ComboBox  Grid.Row="0" Grid.Column="1"  x:FieldModifier="public" Height="25" FontSize="13" Margin="5 0 0 5" x:Name="cmbTo" IsEditable="True" Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbTo_TextChanged"/>
+                        <Label Grid.Row="0" Grid.Column="2" x:FieldModifier="public" x:Name="lblTo" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
+
+                        <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" >Cc:</Label>
+                        <ComboBox Grid.Row="1" Grid.Column="1"  x:FieldModifier="public" Height="25" FontSize="13" Margin="5 0 0 5" x:Name="cmbCc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbCc_TextChanged"/>
+                        <Label Grid.Row="1" Grid.Column="2" x:FieldModifier="public" x:Name="lblCc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
+
+                        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" >Bcc:</Label>
+                        <ComboBox Grid.Row="2" Grid.Column="1" x:FieldModifier="public" Height="25" FontSize="13" Margin="5 0 0 5" x:Name="cmbBcc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbBcc_TextChanged"/>
+
+
+                        <Label Grid.Row="2" Grid.Column="2" x:FieldModifier="public" x:Name="lblBcc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
+
+                        <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Subject*:</Label>
+                        <TextBox Grid.Row="3" Grid.Column="1" x:FieldModifier="public" FontSize="13" Margin="5 0 0 5" Height="25" Width="500"  x:Name="txtSubject"  HorizontalAlignment="Left" TextBoxBase.TextChanged="txtSubject_TextChanged"/>
+
+
+                        <Label Grid.Row="3" Grid.Column="2" x:FieldModifier="public" x:Name="lblSubject" HorizontalAlignment="Left" Margin="5 0 0 5">Insert {column name} in subject line to preview with first record...</Label>
+
+                        <StackPanel  Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button x:Name="btnAttachment" Padding="3"  Background="White" BorderBrush="#4052B5" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnAttachment_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Paperclip" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </Button>
+                            <Button x:Name="btnResetAttachment" Padding="3"  Background="White" BorderBrush="#4052B5" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnResetAttachment_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <fa:IconImage Height="24" Width="24" Foreground="Red"  Icon="TimesCircle" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            </Button>
+                            <Label HorizontalAlignment="Left" x:Name="lblAttachment" Margin="0 0 0 0" Content=""/>
+                        </StackPanel>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5 5 5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabControl Grid.Row="0" Grid.Column="1" Name="Tabs1" TabStripPlacement="Top" Width="1000" Height="300" VerticalAlignment="Stretch">
+                            <TabItem IsSelected="True">
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Code" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <TextBlock Text=" Html Source*" Margin="2,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <RichTextBox HorizontalContentAlignment="Stretch" Grid.Row="0" Grid.Column="1" x:FieldModifier="public" x:Name="txtBody" xml:lang="en-IN" SpellCheck.IsEnabled="True" BorderThickness="0" HorizontalAlignment="Left" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" FontSize="13">
+                                    <RichTextBox.Resources>
+                                        <Style TargetType="{x:Type Paragraph}">
+                                            <Setter Property="Margin" Value="1"/>
+                                        </Style>
+                                    </RichTextBox.Resources>
+                                    <FlowDocument>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </TabItem>
+                            <TabItem>
+                                <TabItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Eye" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <TextBlock Text=" Preview" Margin="2,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </TabItem.Header>
+                                <WebBrowser x:Name="wbPreview" Loaded="wbPreview_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </Grid>
+
+            </Expander.Content>
+        </Expander>
+
+        <Expander Grid.Row="2" Grid.Column="0" Margin="0 0 0 0" Background="White">
+            <Expander.Header>
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Image Width="15" Source="images\icon.jpg"/>
+                    </BulletDecorator.Bullet>
+                    <Label VerticalContentAlignment="Center" Height="30">Send Email</Label>
+                </BulletDecorator>
+            </Expander.Header>
+            <Expander.Content>
+
+                <Grid Grid.Row="1" x:Name="viewSendData" x:FieldModifier="public" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+                    <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
-                        <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1" HorizontalAlignment="Left" Name="Border1" VerticalAlignment="Center" CornerRadius="5 5 5 5">
-                            <Label ToolTip="Timer" Content="00 : 00 : 00" x:Name="lblTimer" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                        </Border>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0" >
-                        <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1 1 0 1" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
-                            <Label ToolTip="Counter of remaining email to send" Content="0" x:Name="txtRowDecrement" MinWidth="45" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                        </Border>
-                        <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1 1 1 1" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
-                            <Label ToolTip="No. of records" Content="0" x:Name="txtRowCount" MinWidth="45" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                        </Border>
-                    </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
+                    <Grid Grid.Row="0" Grid.Column="0" Margin="0 0 0 0">
+                        <ProgressBar Foreground="#0072E5" Background="#eaf2fb" x:Name="pbStatus" Minimum="0" Maximum="100" Value="0" Height="20" BorderThickness="0" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock x:Name="lblPbStatus" Visibility="Hidden" Text="{Binding ElementName=pbStatus, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="0" Margin="5 5 0 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition  Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal"  Margin="0 0 0 0" HorizontalAlignment="Left">
+                            <Button x:Name="btnSendmail" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="#4052B5" Margin="0 0 0 0" Click="btnSendmail_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Foreground="#4052B5" Icon="Envelope" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" x:Name="lblSendmail" Margin="0 0 0 2" HorizontalAlignment="Left" VerticalAlignment="Center">Start Sending</TextBlock>
+                                </Grid>
+                            </Button>
+                            <TextBlock x:Name="lblETA" Visibility="Hidden" Text="ETA(mm:ss): 00:00" FontSize="13" FontWeight="Bold" Margin="20 17 0 0"></TextBlock>
+                        </StackPanel>
+                        <Grid Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 0">
+                                <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1" HorizontalAlignment="Left" Name="Border1" VerticalAlignment="Center" CornerRadius="5 5 5 5">
+                                    <Label ToolTip="Timer" Content="00 : 00 : 00" x:Name="lblTimer" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                </Border>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0" >
+                                <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1 1 0 1" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
+                                    <Label ToolTip="Counter of remaining email to send" Content="0" x:Name="txtRowDecrement" MinWidth="45" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                </Border>
+                                <Border BorderBrush="LightGray" Background="WhiteSmoke" BorderThickness="1 1 1 1" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
+                                    <Label ToolTip="No. of records" Content="0" x:Name="txtRowCount" MinWidth="45" Height="28" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                </Border>
+                            </StackPanel>
 
-                        <Border Background="#04AA6D" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
-                            <Label ToolTip="Email sent" Content="0" x:Name="txtSuccessStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                        </Border>
-                        <Border Background="#ff4d4d" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
-                            <Label ToolTip="Failed to send" Content="0" x:Name="txtFailedStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                        </Border>
-                    </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 0 0">
 
-                    <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 5 0">
-                        <Button x:Name="btnExport" Click="btnExport_Click" ToolTip="Export all records" Height="30" Width="35" Padding="1" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="5"/>
-                                </Style>
-                            </Button.Resources>
-                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="Download" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Button>
-                        <Button x:Name="btnNext" Click="btnNext_Click" ToolTip="Draft email" Height="30" Width="35" Padding="1" Margin="5 0 0 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="5"/>
-                                </Style>
-                            </Button.Resources>
-                            <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="ArrowRight" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Button>
-                    </StackPanel>
+                                <Border Background="#04AA6D" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="5 0 0 5">
+                                    <Label ToolTip="Email sent" Content="0" x:Name="txtSuccessStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                </Border>
+                                <Border Background="#ff4d4d" BorderThickness="0" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="0 5 5 0">
+                                    <Label ToolTip="Failed to send" Content="0" x:Name="txtFailedStatus" MinWidth="45" Height="30" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 5 0">
+                                <Button x:Name="btnExport" Click="btnExport_Click" ToolTip="Export all records" Height="30" Width="35" Padding="1" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <fa:IconImage Grid.Column="0" Grid.Row="0" Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5" Icon="Download" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <DataGrid Grid.Row="2" Grid.Column="0" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvSendData" Height="480" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False" SelectionUnit="FullRow"  SelectionMode="Single">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="FontSize" Value="11" />
+                                <Setter Property="Background" Value="WhiteSmoke"/>
+                                <Setter Property="Padding" Value="4"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="{x:Type DataGridRowHeader}">
+                                <Setter Property="Content" Value="{Binding Row_Id}"/>
+                                <Setter Property="Background" Value="WhiteSmoke"/>
+                                <Setter Property="Padding" Value="10,0,10,0"/>
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+                    </DataGrid>
+
                 </Grid>
-            </Grid>
 
-            <DataGrid Grid.Row="1" Grid.Column="0" Visibility="Hidden" x:FieldModifier="public" ItemsSource="{Binding}"  HorizontalAlignment="Stretch" x:Name="dgvEmailData" VerticalAlignment="Stretch"  BorderThickness="0" HorizontalGridLinesBrush="#bfbfbf"  VerticalGridLinesBrush="#bfbfbf" AutoGenerateColumns="True" IsReadOnly="True" CanUserResizeColumns="True" CanUserResizeRows="False" SelectionUnit="FullRow"  SelectionMode="Single">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="FontWeight" Value="Bold" />
-                        <Setter Property="FontSize" Value="11" />
-                        <Setter Property="Background" Value="WhiteSmoke"/>
-                        <Setter Property="Padding" Value="4"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-                <DataGrid.RowHeaderStyle>
-                    <Style TargetType="{x:Type DataGridRowHeader}">
-                        <Setter Property="Content" Value="{Binding Row_Id}"/>
-                        <Setter Property="Background" Value="WhiteSmoke"/>
-                        <Setter Property="Padding" Value="10,0,10,0"/>
-                    </Style>
-                </DataGrid.RowHeaderStyle>
-            </DataGrid>
-
-        </Grid>
-
-        <Grid Grid.Row="3" x:Name="viewDraftEmail" x:FieldModifier="public" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="44" />
-                  <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" HorizontalAlignment="Stretch"  Margin="0 7 0 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="1" Content="Validate emails" Click="btnValidate_Click" HorizontalAlignment="Left" x:Name="btnValidate" Height="30" Width="120" Margin="5 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" x:Name="btnPrev" Click="btnPrev_Click" Height="30" Width="35" Margin="0 0 5 0" Background="White" BorderBrush="#4052B5" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="5"/>
-                        </Style>
-                    </Button.Resources>
-                    <fa:IconImage Height="26" Width="26" Margin="0 0 0 0" Foreground="#4052B5"  Icon="ArrowLeft" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button>
-            </Grid>
+            </Expander.Content>
+        </Expander>
 
 
-            <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="0 0 0 0" >
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-
-                </Grid.RowDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" >To*:</Label>
-                <ComboBox  Grid.Row="0" Grid.Column="1"  x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbTo" IsEditable="True" Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbTo_TextChanged"/>
-                <Label Grid.Row="0" Grid.Column="2" x:FieldModifier="public" x:Name="lblTo" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
-
-                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" >Cc:</Label>
-                <ComboBox Grid.Row="1" Grid.Column="1"  x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbCc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbCc_TextChanged"/>
-                <Label Grid.Row="1" Grid.Column="2" x:FieldModifier="public" x:Name="lblCc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
-
-                <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" >Bcc:</Label>
-                <ComboBox Grid.Row="2" Grid.Column="1" x:FieldModifier="public" Height="30" FontSize="13" Margin="5 0 0 5" x:Name="cmbBcc" IsEditable="True"  Width="500" HorizontalAlignment="Left" TextBoxBase.TextChanged="cmbBcc_TextChanged"/>
-
-
-                <Label Grid.Row="2" Grid.Column="2" x:FieldModifier="public" x:Name="lblBcc" HorizontalAlignment="Left" Margin="5 0 0 5">Select/enter {column name} to preview with first record...</Label>
-
-                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right">Subject*:</Label>
-                <TextBox Grid.Row="3" Grid.Column="1" x:FieldModifier="public" FontSize="13" Margin="5 0 0 5" Height="30" Width="500"  x:Name="txtSubject"  HorizontalAlignment="Left" TextBoxBase.TextChanged="txtSubject_TextChanged"/>
-
-
-                <Label Grid.Row="3" Grid.Column="2" x:FieldModifier="public" x:Name="lblSubject" HorizontalAlignment="Left" Margin="5 0 0 5">Insert {column name} in subject line to preview with first record...</Label>
-
-                <StackPanel  Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button x:Name="btnResetAttachment" Padding="3"  Background="White" BorderBrush="#4052B5" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnResetAttachment_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        <fa:IconImage Height="24" Width="24" Foreground="Red"  Icon="TimesCircle" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    </Button>
-                    <Button x:Name="btnAttachment" Padding="3"  Background="White" BorderBrush="#4052B5" Margin="5 0 0 0"  HorizontalAlignment="Right" Click="btnAttachment_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Paperclip" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    </Button>
-                    <Label HorizontalAlignment="Left" x:Name="lblAttachment" Margin="0 0 0 0" Content=""/>
-                </StackPanel>
-
-            </Grid>
-
-            <Grid Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="5 5 5 5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TabControl Grid.Row="0" Grid.Column="1" Name="Tabs1" TabStripPlacement="Top" Width="900" VerticalAlignment="Stretch">
-                    <TabItem IsSelected="True">
-                        <TabItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Code" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                <TextBlock Text=" Html Source*" Margin="2,0,0,0" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </TabItem.Header>
-                        <RichTextBox HorizontalContentAlignment="Stretch" Grid.Row="0" Grid.Column="1" x:FieldModifier="public" x:Name="txtBody" xml:lang="en-IN" SpellCheck.IsEnabled="True" BorderThickness="0" HorizontalAlignment="Left" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" FontSize="13">
-                            <RichTextBox.Resources>
-                                <Style TargetType="{x:Type Paragraph}">
-                                    <Setter Property="Margin" Value="1"/>
-                                </Style>
-                            </RichTextBox.Resources>
-                            <FlowDocument>
-                            </FlowDocument>
-                        </RichTextBox>
-                    </TabItem>
-                    <TabItem>
-                        <TabItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <fa:IconImage Height="24" Width="24" Foreground="#4052B5"  Icon="Eye" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                <TextBlock Text=" Preview" Margin="2,0,0,0" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </TabItem.Header>
-                        <WebBrowser x:Name="wbPreview" Loaded="wbPreview_Loaded" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
-                    </TabItem>
-                </TabControl>
-            </Grid>
-        </Grid>
     </Grid>
 
 </UserControl>

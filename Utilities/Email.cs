@@ -9,14 +9,16 @@ using System.Net.Mail;
 using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Interop;
 using Attachment = System.Net.Mail.Attachment;
 
 namespace beeEmailing
 {
     public class Email
     {
-
 
         public bool SendEmailBySMTP(string emailTo, string emailCC, string emailBCC, FileInfo attachment, string msgSubject, string msgBody)
         {
@@ -125,7 +127,7 @@ namespace beeEmailing
                                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                                 smtpClient.Credentials = new System.Net.NetworkCredential(mEmailConfig.smtpusername, mEmailConfig.smtppassword);
                             }
-                          smtpClient.Send(mail);
+                            smtpClient.Send(mail);
                         }
                         IsSend = true;
                     }
@@ -138,128 +140,11 @@ namespace beeEmailing
             return IsSend;
         }
 
-        //public bool SendEmailNew(string emailTo, string emailCC, string emailBCC, FileInfo attachment, string msgSubject, string msgBody)
-        //{
-        //    bool IsSend = false;
-        //    string smtpserver = mEmailConfig.smtphost;
-        //    int smptport = Convert.ToInt32(mEmailConfig.smtpport);
-
-        //    string FromAddress = mEmailConfig.emailfrom;
-        //    string FromAddressTitle = mEmailConfig.emailtitle;
-
-        //    try
-        //    {
-
-        //        if (!string.IsNullOrEmpty(emailTo))
-        //        {
-        //            var mail = new MimeMessage();
-        //            mail.From.Add(new MailboxAddress(FromAddressTitle, FromAddress));
-
-        //            #region<<Mail to TO>>
-        //            if (emailTo.Trim().Contains(";"))
-        //            {
-        //                string[] ToId = emailTo.Split(';');
-        //                foreach (string ToEmail in ToId)
-        //                {
-        //                    if (!string.IsNullOrEmpty(ToEmail) && !ToEmail.Equals("&nbsp;"))
-        //                    {
-        //                        mail.To.Add(MailboxAddress.Parse(ToEmail.Trim()));
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                mail.To.Add(MailboxAddress.Parse(emailTo.Trim()));
-        //            }
-        //            #endregion
-
-        //            #region<<Mail to CC>>
-        //            if (!string.IsNullOrEmpty(emailCC))
-        //            {
-        //                if (emailCC.Contains(';'))
-        //                {
-        //                    string[] CCId = emailCC.Split(';');
-        //                    foreach (string CCEmail in CCId)
-        //                    {
-        //                        if (!string.IsNullOrEmpty(CCEmail) && !CCEmail.Equals("&nbsp;"))
-        //                        {
-        //                            mail.Cc.Add(MailboxAddress.Parse(CCEmail.Trim()));
-        //                        }
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    mail.Cc.Add(MailboxAddress.Parse(emailCC.Trim()));
-        //                }
-        //            }
-        //            #endregion
-
-        //            #region<<Mail to BCC>>
-        //            if (!string.IsNullOrEmpty(emailBCC))
-        //            {
-        //                if (emailBCC.Contains(';'))
-        //                {
-        //                    string[] BCCId = emailBCC.Split(';');
-
-        //                    foreach (string BCCEmail in BCCId)
-        //                    {
-        //                        if (!string.IsNullOrEmpty(BCCEmail) && !BCCEmail.Equals("&nbsp;"))
-        //                        {
-        //                            mail.Bcc.Add(MailboxAddress.Parse(BCCEmail.Trim()));
-        //                        }
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    mail.Bcc.Add(MailboxAddress.Parse(emailBCC.Trim()));
-        //                }
-        //            }
-        //            #endregion
-
-        //            if (msgSubject.Length > 254) msgSubject = msgSubject.Substring(0, 254);
-        //            mail.Subject = msgSubject.Trim().Replace('\r', ' ').Replace('\n', ' ');
-
-        //            var builder = new BodyBuilder();
-        //            if (attachment != null) builder.Attachments.Add(attachment.FullName);
-        //            builder.HtmlBody = msgBody;
-
-        //            mail.Body = builder.ToMessageBody();
-
-        //            using (var client = new MailKit.Net.Smtp.SmtpClient())
-        //            {                     
-
-        //                if (mEmailConfig.smtpencryption.Equals("Ssl"))
-        //                    client.Connect(smtpserver, smptport, SecureSocketOptions.Auto);
-        //                else
-        //                    client.Connect(smtpserver, 25, SecureSocketOptions.None);
-
-
-        //                if (!mEmailConfig.smtpauth.Equals("DefaultAuth", StringComparison.OrdinalIgnoreCase))
-        //                {
-        //                    client.Authenticate(mEmailConfig.smtpusername, mEmailConfig.smtppassword);
-        //                }
-
-
-        //                client.Send(mail);
-        //                client.Disconnect(true);
-
-        //            }
-        //            IsSend = true;
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    return IsSend;
-        //}
-
-        public async Task<bool> SendEmailBySG(string emailTo, string emailCC, string emailBCC, FileInfo attachment, string msgSubject, string msgBody)
+        public async Task<bool> SendEmailBySG(string emailTo, string emailCC, string emailBCC, FileInfo filename, string msgSubject, string msgBody)
         {
             bool IsSend = false;
-            string smtpserver = mEmailConfig.smtphost;
-            int smptport = Convert.ToInt32(mEmailConfig.smtpport);
+            string sgemail = mEmailConfig.sendgridemailid;
+            string sgkey = mEmailConfig.sendgridkey;
 
             string FromAddress = mEmailConfig.emailfrom;
             string FromAddressTitle = mEmailConfig.emailtitle;
@@ -333,19 +218,24 @@ namespace beeEmailing
                     }
                     #endregion
 
+
                     if (msgSubject.Length > 254) msgSubject = msgSubject.Substring(0, 254);
                     var Subject = msgSubject.Trim().Replace('\r', ' ').Replace('\n', ' ');
 
-                    var apiKey = smtpserver;
-                    var client = new SendGridClient(apiKey);
-                    var message = new SendGridMessage()
-                    {
-                        From = new EmailAddress(FromAddress, FromAddressTitle),
-                        Subject = Subject,
-                        HtmlContent = msgBody
-                    };
+                    var client = new SendGridClient(sgkey);
+                    var message = new SendGridMessage();
+
+                    message.From = new EmailAddress(sgemail, FromAddressTitle);
+                    message.Subject = Subject;
+                    message.HtmlContent = msgBody;
                     message.AddTos(tos);
-                    var response = await client.SendEmailAsync(message);
+
+                    Response response;
+                    using (var fileStream = File.OpenRead(filename.FullName))
+                    {
+                        await message.AddAttachmentAsync(filename.Name, fileStream);
+                        response = await client.SendEmailAsync(message);
+                    }
                     if (response.IsSuccessStatusCode)
                         IsSend = true;
                     else
