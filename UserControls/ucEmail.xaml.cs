@@ -36,7 +36,6 @@ namespace beeEmailing
 
         DateTime dtStartTimer = DateTime.Now;
         FileInfo EmailAttachment = null;
-        string attachmentFullName = string.Empty;
 
         Excel oExcel = new Excel();
         Email oEmail = new Email();

@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Expander Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Background="White" >
+        <Expander Grid.Row="0" Grid.Column="0" Margin="0 0 0 0" Background="White" x:Name="ExDataSource" IsExpanded="True">
             <Expander.Header>
                 <BulletDecorator>
                     <BulletDecorator.Bullet>
@@ -25,7 +25,7 @@
                 </BulletDecorator>
             </Expander.Header>
             <Expander.Content>
-                <Grid x:Name="viewImportData" x:FieldModifier="public" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="White">
+                <Grid x:Name="viewImportData" x:FieldModifier="public" Height="540"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="White">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
             </Expander.Content>
         </Expander>
 
-        <Expander Grid.Row="1" Grid.Column="0" Margin="0 0 0 0" Background="White">
+        <Expander Grid.Row="1" Grid.Column="0" Margin="0 0 0 0" Background="White" x:Name="exDraftEmail" IsExpanded="False">
             <Expander.Header>
                 <BulletDecorator>
                     <BulletDecorator.Bullet>
@@ -96,7 +96,7 @@
             </Expander.Header>
             <Expander.Content>
 
-                <Grid x:Name="viewDraftEmail" x:FieldModifier="public" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+                <Grid x:Name="viewDraftEmail" x:FieldModifier="public" Height="540" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="44" />
                         <RowDefinition Height="Auto" />
@@ -233,7 +233,7 @@
             </Expander.Content>
         </Expander>
 
-        <Expander Grid.Row="2" Grid.Column="0" Margin="0 0 0 0" Background="White">
+        <Expander x:Name="exSendEmail" Grid.Row="2" Grid.Column="0" Margin="0 0 0 0" Background="White" IsExpanded="False">
             <Expander.Header>
                 <BulletDecorator>
                     <BulletDecorator.Bullet>
